@@ -1,7 +1,9 @@
+
 li{
     transition: 0.2s linear;
 }
 
 li:hover{
     transform: scale(1.1);
+    text-decoration: underline;
 }
