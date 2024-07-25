@@ -1,5 +1,5 @@
 import * as React from 'react';
-;
+
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -23,6 +23,7 @@ import UploadIcon from '@mui/icons-material/Upload';
 import DownloadIcon from '@mui/icons-material/Download';
 import SearchIcon from '@mui/icons-material/Search';
 import {TextField,Tooltip} from '@mui/material';
+import Typography from '@mui/material/Typography';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -138,11 +139,17 @@ export default function CustomPaginationActionsTable() {
       <Box sx={{
         display: 'flex',
         alignItems: 'center',
-        marginBottom: 2,
         gap: 2, 
         justifyContent: 'flex-end'
       }}>
-        <TextField
+        <Typography
+            variant='inherit'
+            noWrap
+            sx={{ color:'' ,display: { xs: 'none', sm: 'block' } }}
+          >
+            Employee
+          </Typography>
+       <TextField
           variant="outlined"
           size="small"
           placeholder="Search..."
@@ -150,12 +157,11 @@ export default function CustomPaginationActionsTable() {
           onChange={handleSearchChange}
           InputProps={{
             startAdornment: (
-              <IconButton sx={{ padding: 1 }}>
+              <IconButton sx={{ padding: 1}}>
                 <SearchIcon />
               </IconButton>
             ),
-          }}
-        />
+          }}/>
 
         <Tooltip title="Add Employee">
           <IconButton sx={{backgroundColor: 'blue', color: 'white','&:hover': {backgroundColor: 'darkblue'}}}>
