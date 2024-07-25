@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import React from 'react'
-import './Navbar.css';
+import { NavLink } from 'react-router-dom';
+import React from 'react';
+import styles from './Navbar.module.css';
 
 const Navbar = () => {
   return (
@@ -10,10 +10,10 @@ const Navbar = () => {
       <div className="font-bold tracking-widest">LOGO</div>
       <div className='flex gap-5'>
         <ul className='flex gap-5'>
-            <li><Link to="">Dashboard</Link></li>
-            <li><Link to="teammembers">Team Members</Link></li>
-            <li><Link to="wfo">WFO/Leave</Link></li>
-            <li><Link to="training">Training</Link></li>
+            <li className={styles.li} ><NavLink to="" className={({isActive})=>isActive?styles.active:undefined} end >Dashboard</NavLink></li>
+            <li className={styles.li}><NavLink to="teammembers" className={({isActive})=>isActive?styles.active:undefined} >Team Members</NavLink></li>
+            <li className={styles.li}><NavLink to="wfo" className={({isActive})=>isActive?styles.active:undefined} >WFO/Leave</NavLink></li>
+            <li className={styles.li}><NavLink to="training" className={({isActive})=>isActive?styles.active:undefined} >Training</NavLink></li>
         </ul>
       </div>
       <div className='flex gap-6'>

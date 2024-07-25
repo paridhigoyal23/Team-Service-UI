@@ -12,7 +12,7 @@ const router=createBrowserRouter([
     path:'/Team-Service-UI/', 
     element:<RootLayout />,
     children:[
-      {path:'', element:<Dashboard />},
+      {index:true, element:<Dashboard />},
       {path:'teammembers', element:<TeamMembers />},
       {path:'wfo', element:<WFO />},
       {path:'training', element:<Training/>}
