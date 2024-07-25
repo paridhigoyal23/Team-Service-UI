@@ -17,7 +17,7 @@ const Navbar = () => {
         </ul>
       </div>
       <div className='flex gap-6'>
-        <div className='text-lg'>manager@gmail.com</div>
+        <div className='text-lg'>admin@gmail.com</div>
         <div><i className="fa-solid fa-right-from-bracket"></i></div>
       </div>
       </div>

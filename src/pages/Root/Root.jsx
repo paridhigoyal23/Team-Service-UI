@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/components/Navbar.jsx";
-import classes from './Root.module.css';
+import Navbar from "../../components/Navbar/Navbar"
+import classes from "./Root.module.css"
 function RootLayout(){
     return (
         <>
-          <Navbar/>
+          <Navbar />
           <main className={classes.content}>
-          <Outlet/>
+            <Outlet />
           </main>
         </>
         
