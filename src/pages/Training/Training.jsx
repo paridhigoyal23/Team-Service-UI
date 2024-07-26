@@ -1,9 +1,9 @@
 import React from 'react'
-
+import TrainingTable from '../../components/components/TrainingTable';
 const Training = () => {
   return (
     <div>
-        <h1>This is Trainings Page</h1>
+        <TrainingTable/>
     </div>
   )
 }

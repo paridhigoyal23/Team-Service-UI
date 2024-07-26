@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -19,56 +18,56 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead  from '@mui/material/TableHead';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import UploadIcon from '@mui/icons-material/Upload';
 import DownloadIcon from '@mui/icons-material/Download';
 import SearchIcon from '@mui/icons-material/Search';
 import {TextField,Tooltip} from '@mui/material';
-import Typography from '@mui/material/Typography';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import InputBase from '@mui/material/InputBase';
+// import { makeStyles } from '@mui/styles';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar'; 
-import InputBase from '@mui/material/InputBase';
+import Toolbar from '@mui/material/Toolbar';
 
 const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 50,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(2),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
-  },
-}));
-
+    marginRight: theme.spacing(70),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  }));
+  
+  const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }));
+  
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '20ch',
+      },
+    },
+  }));
+  
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -132,26 +131,23 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(EmpId,Name,Grade,Designation,Project,Skills,Location,ContactNo) {
-  return { EmpId,Name,Grade,Designation,Project,Skills,Location,ContactNo };
+function createData(EmpId,Name,TrainingTitle,TrainingType,Mode,PlannedDate,StartDate,EndDate,Status) {
+  return {EmpId, Name,TrainingTitle,TrainingType,Mode,PlannedDate,StartDate,EndDate,Status };
 }
 
 const rows = [
-  createData(123456,'Pernika', 'A1','Sn.Software Engineer','Team Services','Java','Noida','75754-86584'),
-  createData(123457,'Yash', 'A1','Jn.Software Engineer','Team Services','Java','Noida','75785-78686'),
-  createData(123459,'Megha', 'A3','Software Engineer','Feedback Portal','Angular JS','Noida','73683-83273'),
-  createData(123452,'Vishal', 'A1','Module Lead','Team Services','React JS','Noida','73862-84687'),
-  createData(123451,'Nidhi', 'A1','Teach Lead','Team Services','Angular JS','Noida','75736-48667'),
+  createData(123456,'Pernika', 'Java','Self','Offline','18/08/23','20/08/23','26/08/2-23','In Progress'),
+  createData(123457,'Yash', 'Angular JS','Corporate','Offline','20/08/23','21/08/2023','26/08/2-23','In Progress'),
+  createData(123459,'Megha', 'Angular JS','Corporate','Offline','20/08/23','25/08/2023','29/08/2-23','In Progress')
 ]
 
-export default function TeamMembersTable() {
+export default function TrainingTable() {
 
   const handleEdit=(EmpId) => {
     console.log(`Edit item with EmpId: ${EmpId}`);
     // Implement edit functionality here
   };
   const [searchTerm, setSearchTerm] = React.useState('');
-
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -160,6 +156,17 @@ export default function TeamMembersTable() {
   // const filteredData = data.filter(row =>
   //   row.name.toLowerCase().includes(searchTerm.toLowerCase())
   // );
+
+    const [copyContent, setCopyContent] = React.useState(false);
+  
+    const handleCopy = (text) => {
+      copyToClipboard(text);
+      setCopyContent(true);
+    };
+  
+    const handleCopyClose = () => {
+        setCopyContent(false);
+    };
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -182,19 +189,24 @@ export default function TeamMembersTable() {
       {/* Toolbar with search bar and icons */}
       {/* <Box sx={{
         display: 'flex',
-        alignItems: 'center',
-        gap: 2, 
-        justifyContent: 'flex-end'
+        alignItems: 'center'
       }}> */}
-        <AppBar  position='static'>
-          <Toolbar display='flex' justifyContent='flex-end'>
-          <Typography
-            variant='inherit'
-            noWrap
-            sx={{ color:'' ,display: { xs: 'none', sm: 'block' } }}
-          >
-            Employee
-          </Typography>
+       {/* <TextField
+          variant="outlined"
+          size="small"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          InputProps={{
+            endAdornment: (
+              <IconButton edge="start" style={{ marginRight: '1px' }} sx={{ padding: 1}}>
+                <SearchIcon />
+              </IconButton>
+            ),
+          }}/> */}
+          {/* <Box sx={{ flexGrow: 1 }}> */}
+          <AppBar position="static">
+          <Toolbar>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -204,39 +216,20 @@ export default function TeamMembersTable() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-        
-       {/* <TextField
-          variant="outlined"
-          size="small"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          InputProps={{
-            startAdornment: (
-              <IconButton sx={{ padding: 1}}>
-                <SearchIcon />
-              </IconButton>
-            ),
-          }}/> */}
 
-        <Tooltip  title="Add Employee">
-          <IconButton style={{ marginLeft: '400px' }} sx={{backgroundColor: 'blue', color: 'white','&:hover': {backgroundColor: 'darkblue'}}}>
+        <Tooltip title="Add Employee">
+          <IconButton  style={{ marginLeft: '10px' }} sx={{backgroundColor: 'blue', color: 'white','&:hover': {backgroundColor: 'darkblue'}}}>
             <AddIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Upload Employee List">
-          <IconButton style={{ marginLeft: '8px' }} sx={{backgroundColor: 'red', color: 'white','&:hover': {backgroundColor: 'darkred'}}}>
-            <UploadIcon />
-          </IconButton>
-        </Tooltip>
         <Tooltip title="Download Employee List">
-          <IconButton style={{ marginLeft: '8px' }} sx={{backgroundColor: 'green', color: 'white','&:hover': {backgroundColor: 'darkred'}}}>
+          <IconButton style={{ marginLeft: '8px' }} sx={{backgroundColor: 'green', color: 'white','&:hover': {backgroundColor: 'darkgreen'}}}>
             <DownloadIcon />
           </IconButton>
         </Tooltip>
-        </Toolbar>
-        </AppBar>
-      {/* </Box> */}
+        {/* </Box> */}
+      </Toolbar>
+      </AppBar>
 
     <TableContainer component={Paper} >
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
@@ -244,12 +237,13 @@ export default function TeamMembersTable() {
           <TableRow>
             <TableCell sx={{ fontWeight: 'bold' }}>EmpID</TableCell>
             <TableCell sx={{ fontWeight: 'bold' }} >Name</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Grade</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Designation</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Project</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Skills</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Location</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >ContactNo</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }} >Training Title</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }} >Training Type</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }} >Mode</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }} >Planned Date</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }} >Start Date</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }} >End Date</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }} >Status</TableCell>
             <TableCell sx={{ fontWeight: 'bold' }} >Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -261,16 +255,22 @@ export default function TeamMembersTable() {
             <TableRow key={row.EmpId}>
               <TableCell component="th" scope="row">{row.EmpId}</TableCell>
               <TableCell>{row.Name}</TableCell>
-              <TableCell>{row.Grade}</TableCell>
-              <TableCell>{row.Designation}</TableCell>
-              <TableCell>{row.Project}</TableCell>
-              <TableCell>{row.Skills}</TableCell>
-              <TableCell>{row.Location}</TableCell>
-              <TableCell>{row.ContactNo}</TableCell>
+              <TableCell>{row.TrainingTitle}</TableCell>
+              <TableCell>{row.TrainingType}</TableCell>
+              <TableCell>{row.Mode}</TableCell>
+              <TableCell>{row.PlannedDate}</TableCell>
+              <TableCell>{row.StartDate}</TableCell>
+              <TableCell>{row.EndDate}</TableCell>
+              <TableCell>{row.Status}</TableCell>
               <TableCell>
               <Tooltip title="Edit Employee List">
                 <IconButton sx={{color: 'blue','&:hover': {color:'darkblue'}}} onClick={() => handleEdit(row.EmpId)}>
                   <EditIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Copy Employee Details">
+                <IconButton sx={{color: 'green','&:hover': {color:'darkgreen'}}} onClick={() => handleCopy(row.email)}>
+                  <ContentCopyIcon />
                 </IconButton>
               </Tooltip>
               </TableCell>
