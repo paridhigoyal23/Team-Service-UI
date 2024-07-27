@@ -1,11 +1,11 @@
 import React from 'react'
-
+import TeamMembersTable from '../../components/components/TeamMembersTable.jsx';
 const TeamMembers = () => {
   return (
     <div>
-        <h1>This is Team Members Page</h1>
+        <TeamMembersTable/>
     </div>
   )
 }
 
-export default TeamMembers
+export default TeamMembers;

@@ -1,9 +1,14 @@
 
-li{
+.li{
     transition: 0.2s linear;
 }
+/* .li a{
+    text-decoration: none;
+} */
 
-li:hover{
+
+.li:hover,
+.li a.active{
     transform: scale(1.1);
     text-decoration: underline;
-}
+} 

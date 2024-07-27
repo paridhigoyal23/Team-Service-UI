@@ -6,21 +6,16 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import TeamMembers from './pages/TeamMembers/TeamMembers'
 import Training from './pages/Training/Training';
 import WFO from './pages/WFO/WFO';
-import LoginPage from './pages/Login/Login'; 
 
 const router = createBrowserRouter([
   {
-    path: '/login', 
-    element: <LoginPage />,
-  },
-  {
-    path: '/Team-Service-UI/',
-    element: <RootLayout />,
-    children: [
-      { path: '', element: <Dashboard /> },
-      { path: 'teammembers', element: <TeamMembers /> },
-      { path: 'wfo', element: <WFO /> },
-      { path: 'training', element: <Training /> }
+    path:'/Team-Service-UI/', 
+    element:<RootLayout />,
+    children:[
+      {index:true, element:<Dashboard />},
+      {path:'teammembers', element:<TeamMembers />},
+      {path:'wfo', element:<WFO />},
+      {path:'training', element:<Training/>}
     ],
   },
 ]);
