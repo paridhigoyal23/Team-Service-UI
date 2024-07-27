@@ -1,0 +1,16 @@
+th{
+    border: 2px solid rgb(218, 217, 217);
+    padding: 0.5rem 0.6rem;
+    color: rgb(38, 38, 38);
+    font-size: 1.6vh
+}
+
+td{
+    border: 2px solid rgb(218, 217, 217);
+    padding: 0.6rem 0.4vw;
+}
+
+td i{
+    opacity: 0.8;
+    color: rgb(224, 90, 0);
+}
