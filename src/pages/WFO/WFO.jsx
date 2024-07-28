@@ -29,7 +29,7 @@ function CalendarTable() {
         <table>
             <thead>
                 <tr>
-                    <th rowspan="2" className='px-6'>Name</th>
+                    <th rowSpan="2" className='px-6'>Name</th>
                     <th>1</th>
                     <th>2</th>
                     <th>3</th>
@@ -101,36 +101,36 @@ function CalendarTable() {
             <tbody>
                 <tr scope="col">
                     <td className='px-6'>Pernika(1234)</td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-regular fa-face-smile text-gray-800"></i></td>
-                    <td><i class="fa-regular fa-face-smile text-gray-800"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-regular fa-face-smile text-gray-800"></i></td>
-                    <td><i class="fa-regular fa-face-smile text-gray-800"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-regular fa-face-smile text-gray-800"></i></td>
-                    <td><i class="fa-regular fa-face-smile text-gray-800"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
                     <td><i className="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-regular fa-face-smile text-gray-800"></i></td>
-                    <td><i class="fa-regular fa-face-smile text-gray-800"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
-                    <td><i class="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-regular fa-face-smile text-gray-800"></i></td>
+                    <td><i className="fa-regular fa-face-smile text-gray-800"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-regular fa-face-smile text-gray-800"></i></td>
+                    <td><i className="fa-regular fa-face-smile text-gray-800"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-regular fa-face-smile text-gray-800"></i></td>
+                    <td><i className="fa-regular fa-face-smile text-gray-800"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-regular fa-face-smile text-gray-800"></i></td>
+                    <td><i className="fa-regular fa-face-smile text-gray-800"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
+                    <td><i className="fa-solid fa-circle-h"></i></td>
                     <td>22</td>
                     <td>0</td>
                     <td>0</td>
