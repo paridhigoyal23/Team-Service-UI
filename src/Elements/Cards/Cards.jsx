@@ -54,7 +54,7 @@ const Cards = () => {
         <Card sx={{ ...cardStyle, backgroundColor: "#3DB5A4", borderRadius: "20px", boxShadow: "1px 1px 10px 0.00001px gray", color: "white" }}>
           <div className="flex flex-col gap-3 items-center justify-center h-full">
             <div style={{ fontSize: textStyle.titleFontSize }}>Team</div>
-            <div style={{ fontSize: textStyle.contentFontSize }}>7</div>
+            <div style={{ fontSize: textStyle.contentFontSize }}>70</div>
             <div style={{ fontSize: textStyle.contentFontSize }}>Employee</div>
           </div>
         </Card>
@@ -75,7 +75,7 @@ const Cards = () => {
         <Card sx={{ ...cardStyle, backgroundColor: "#E58953", borderRadius: "20px", boxShadow: "1px 1px 10px 0.1px gray", color: "white" }}>
           <div className="flex flex-col gap-3 items-center justify-center h-full">
             <div style={{ fontSize: textStyle.titleFontSize }}>Training</div>
-            <div style={{ fontSize: textStyle.contentFontSize }}>0 / 0</div>
+            <div style={{ fontSize: textStyle.contentFontSize }}>10 / 10</div>
             <div style={{ fontSize: textStyle.contentFontSize }}>Today/Week</div>
           </div>
         </Card>
