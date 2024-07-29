@@ -80,8 +80,8 @@ const Cards = () => {
           </div>
         </Card>
       </div>
+      <div>Sher bhai</div>
     </div>
-    <div>Sher bhai</div>
   );
 };
 
