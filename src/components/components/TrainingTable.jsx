@@ -23,7 +23,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import {TextField,Tooltip} from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import InputBase from '@mui/material/InputBase';
-// import { makeStyles } from '@mui/styles';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -158,7 +157,7 @@ export default function TrainingTable() {
   // const filteredData = data.filter(row =>
   //   row.name.toLowerCase().includes(searchTerm.toLowerCase())
   // );
-  
+
 // Implement copy functionality here
     const [copyContent, setCopyContent] = React.useState(false);
   
@@ -189,25 +188,6 @@ export default function TrainingTable() {
 
   return (
     <Box sx={{ paddingRight:20,paddingLeft:20}}>
-      {/* Toolbar with search bar and icons */}
-      {/* <Box sx={{
-        display: 'flex',
-        alignItems: 'center'
-      }}> */}
-       {/* <TextField
-          variant="outlined"
-          size="small"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          InputProps={{
-            endAdornment: (
-              <IconButton edge="start" style={{ marginRight: '1px' }} sx={{ padding: 1}}>
-                <SearchIcon />
-              </IconButton>
-            ),
-          }}/> */}
-          {/* <Box sx={{ flexGrow: 1 }}> */}
           <AppBar position="static">
           <Toolbar>
           <Search>
@@ -230,7 +210,7 @@ export default function TrainingTable() {
             <DownloadIcon />
           </IconButton>
         </Tooltip>
-        {/* </Box> */}
+        
       </Toolbar>
       </AppBar>
 
