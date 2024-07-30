@@ -28,6 +28,7 @@ import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 
+// styling the search bar
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -68,6 +69,7 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
   
+  // styling the footer
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -130,7 +132,7 @@ TablePaginationActions.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-
+//data to be filled in the tables
 function createData(EmpId,Name,TrainingTitle,TrainingType,Mode,PlannedDate,StartDate,EndDate,Status) {
   return {EmpId, Name,TrainingTitle,TrainingType,Mode,PlannedDate,StartDate,EndDate,Status };
 }
@@ -142,11 +144,11 @@ const rows = [
 ]
 
 export default function TrainingTable() {
-
+// Implement edit functionality here
   const handleEdit=(EmpId) => {
     console.log(`Edit item with EmpId: ${EmpId}`);
-    // Implement edit functionality here
   };
+  // Implement search functionality here
   const [searchTerm, setSearchTerm] = React.useState('');
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -156,7 +158,8 @@ export default function TrainingTable() {
   // const filteredData = data.filter(row =>
   //   row.name.toLowerCase().includes(searchTerm.toLowerCase())
   // );
-
+  
+// Implement copy functionality here
     const [copyContent, setCopyContent] = React.useState(false);
   
     const handleCopy = (text) => {
