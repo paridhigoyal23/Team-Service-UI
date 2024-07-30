@@ -1,6 +1,7 @@
 {
-    "users": [
+    "TrainingTable": [
       {
+        "id": 1,
         "EmpID": 123456,
         "Name": "Pernika",
         "TrainingTitle": "Java",
@@ -12,6 +13,7 @@
         "Status": "In Progress"
       },
       {
+        "id": 2,
         "EmpID": 123457,
         "Name": "Yash",
         "TrainingTitle": "Angular JS",
@@ -23,6 +25,7 @@
         "Status": "In Progress"
       },
       {
+        "id": 3,
         "EmpID": 123459,
         "Name": "Megha",
         "TrainingTitle": "Angular JS",
@@ -33,5 +36,58 @@
         "EndDate": "29/08/23",
         "Status": "In Progress"
       }      
+    ],
+
+    "TeamMemberTable":[
+      {
+        "EmpID":123456,
+        "Name": "Pernika",
+        "Grade": "A1",
+        "Designation": "Sn. Software Engineer",
+        "Project": "Team Services",
+        "Skills": "Java",
+        "Location": "Noida",
+        "ContactNo": 7575486584
+      },
+      {
+        "EmpID":123457,
+        "Name": "Yash",
+        "Grade": "A1",
+        "Designation": "Jn. Software Engineer",
+        "Project": "Team Services",
+        "Skills": "Java",
+        "Location": "Noida",
+        "ContactNo": 7575486585
+      },
+      {
+        "EmpID":123459,
+        "Name": "Megha",
+        "Grade": "A3",
+        "Designation": "Software Engineer",
+        "Project": "Feedback Portal",
+        "Skills": "Angular JS",
+        "Location": "Noida",
+        "ContactNo": 7575486586
+      },
+      {
+        "EmpID":123456,
+        "Name": "Pernika",
+        "Grade": "A1",
+        "Designation": "Module Lead",
+        "Project": "Team Services",
+        "Skills": "React",
+        "Location": "Noida",
+        "ContactNo": 7575486587
+      },
+      {
+        "EmpID":123456,
+        "Name": "Pernika",
+        "Grade": "A1",
+        "Designation": "Teach Lead",
+        "Project": "Team Services",
+        "Skills": "Angular JS",
+        "Location": "Noida",
+        "ContactNo": 7575486588
+      }
     ]
 }

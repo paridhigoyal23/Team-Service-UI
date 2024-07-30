@@ -197,11 +197,10 @@ export default function TrainingTable() {
 
   // Using useEffect to use db.json
   useEffect(() => {
-    axios.get("http://localhost:5050/users")
+    axios.get("http://localhost:5050/TrainingTable")
     .then(response => setData(response.data))
     .catch(err => console.log(err))
   }, [])
-
 
   return (
     <Box sx={{ paddingRight:20,paddingLeft:20}}>
@@ -217,7 +216,7 @@ export default function TrainingTable() {
             />
           </Search>
 
-        <Tooltip title="Add Employee">
+        <Tooltip title="Add Employee" >
           <IconButton  style={{ marginLeft: '10px' }} sx={{backgroundColor: 'blue', color: 'white','&:hover': {backgroundColor: 'darkblue'}}}>
             <AddIcon />
           </IconButton>
@@ -234,51 +233,53 @@ export default function TrainingTable() {
     <TableContainer component={Paper} >
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
       <TableHead >
-          <TableRow sx={{fontWeight:"bold"}}>
-            <TableCell >EmpID</TableCell>
-            <TableCell >Name</TableCell>
-            <TableCell >Training Title</TableCell>
-            <TableCell >Training Type</TableCell>
-            <TableCell >Mode</TableCell>
-            <TableCell >Planned Date</TableCell>
-            <TableCell >Start Date</TableCell>
-            <TableCell >End Date</TableCell>
-            <TableCell >Status</TableCell>
-            <TableCell >Actions</TableCell>
+          <TableRow>
+            <TableCell sx={{fontWeight:"bold"}}>EmpID</TableCell>
+            <TableCell sx={{fontWeight:"bold"}} >Name</TableCell>
+            <TableCell sx={{fontWeight:"bold"}} >Training Title</TableCell>
+            <TableCell sx={{fontWeight:"bold"}} >Training Type</TableCell>
+            <TableCell sx={{fontWeight:"bold"}} >Mode</TableCell>
+            <TableCell sx={{fontWeight:"bold"}} >Planned Date</TableCell>
+            <TableCell sx={{fontWeight:"bold"}} >Start Date</TableCell>
+            <TableCell sx={{fontWeight:"bold"}} >End Date</TableCell>
+            <TableCell sx={{fontWeight:"bold"}} >Status</TableCell>
+            <TableCell sx={{fontWeight:"bold"}} >Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{
-          data.map((user, index) => (
+          data.map((TrainingTable, index) => (
             <TableRow key={index}>
 {/* this is the entry that should be filled by db.json */}
-              <TableCell component="th" scope="row">{user.EmpID}</TableCell>
-              <TableCell>{user.Name}</TableCell>
-              <TableCell>{user.TrainingTitle}</TableCell>
-              <TableCell>{user.TrainingType}</TableCell>
-              <TableCell>{user.Mode}</TableCell>
-              <TableCell>{user.PlannedDate}</TableCell>
-              <TableCell>{user.StartDate}</TableCell>
-              <TableCell>{user.EndDate}</TableCell>
-              <TableCell>{user.Status}</TableCell>
+              <TableCell component="th" scope="row">{TrainingTable.EmpID}</TableCell>
+              <TableCell>{TrainingTable.Name}</TableCell>
+              <TableCell>{TrainingTable.TrainingTitle}</TableCell>
+              <TableCell>{TrainingTable.TrainingType}</TableCell>
+              <TableCell>{TrainingTable.Mode}</TableCell>
+              <TableCell>{TrainingTable.PlannedDate}</TableCell>
+              <TableCell>{TrainingTable.StartDate}</TableCell>
+              <TableCell>{TrainingTable.EndDate}</TableCell>
+              <TableCell>{TrainingTable.Status}</TableCell>
 
 {/* Sample API from jsonplaceholder */}
-              {/* <TableCell>{user.id}</TableCell>
-              <TableCell>{user.name}</TableCell>
-              <TableCell>{user.username}</TableCell>
-              <TableCell>{user.address.city}</TableCell>
-              <TableCell>{user.address.zipcode}</TableCell>
-              <TableCell>{user.phone}</TableCell>
-              <TableCell>{user.website}</TableCell>
-              <TableCell>{user.company.name}</TableCell>
-              <TableCell>{user.company.bs}</TableCell> */}
+              {/* <TableCell>{TrainingTable.id}</TableCell>
+              <TableCell>{TrainingTable.name}</TableCell>
+              <TableCell>{TrainingTable.TrainingTablename}</TableCell>
+              <TableCell>{TrainingTable.address.city}</TableCell>
+              <TableCell>{TrainingTable.address.zipcode}</TableCell>
+              <TableCell>{TrainingTable.phone}</TableCell>
+              <TableCell>{TrainingTable.website}</TableCell>
+              <TableCell>{TrainingTable.company.name}</TableCell>
+              <TableCell>{TrainingTable.company.bs}</TableCell> */}
               <TableCell>
+          {/* Edit Icon  */}
               <Tooltip title="Edit Employee List">
-                <IconButton sx={{color: 'blue','&:hover': {color:'darkblue'}}} onClick={() => handleEdit(row.EmpId)}>
+                <IconButton sx={{color: 'blue','&:hover': {color:'darkblue'}}} onClick={() => handleEdit(TrainingTable.EmpID)}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>
+          {/* Copy Icon  */}
               <Tooltip title="Copy Employee Details">
-                <IconButton sx={{color: 'green','&:hover': {color:'darkgreen'}}} onClick={() => handleCopy(row.email)}>
+                <IconButton sx={{color: 'green','&:hover': {color:'darkgreen'}}} onClick={() => handleCopy(TrainingTable.Name)}>
                   <ContentCopyIcon />
                 </IconButton>
               </Tooltip>

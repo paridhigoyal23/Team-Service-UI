@@ -1,4 +1,6 @@
 import * as React from 'react';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
@@ -177,6 +179,17 @@ export default function TeamMembersTable() {
     setPage(0);
   };
 
+  // Fetching data by creating hooks and axios
+  //using useState to put items into table
+  const [data, setData] = useState([])
+
+  // Using useEffect to use db.json
+  useEffect(() => {
+    axios.get("http://localhost:5050/TeamMemberTable")
+    .then(response => setData(response.data))
+    .catch(err => console.log(err))
+  }, [])
+
   return (
     <Box sx={{ paddingRight:20,paddingLeft:20}}>
       {/* Toolbar with search bar and icons */}
@@ -253,23 +266,22 @@ export default function TeamMembersTable() {
             <TableCell sx={{ fontWeight: 'bold' }} >Actions</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row) => (
-            <TableRow key={row.EmpId}>
-              <TableCell component="th" scope="row">{row.EmpId}</TableCell>
-              <TableCell>{row.Name}</TableCell>
-              <TableCell>{row.Grade}</TableCell>
-              <TableCell>{row.Designation}</TableCell>
-              <TableCell>{row.Project}</TableCell>
-              <TableCell>{row.Skills}</TableCell>
-              <TableCell>{row.Location}</TableCell>
-              <TableCell>{row.ContactNo}</TableCell>
+
+  {/* Here data is coming from db.json file */}
+        <TableBody>{
+          data.map((TeamMemberTable, index) => (
+            <TableRow key={index}>
+              <TableCell component="th" scope="row">{TeamMemberTable.EmpID}</TableCell>
+              <TableCell>{TeamMemberTable.Name}</TableCell>
+              <TableCell>{TeamMemberTable.Grade}</TableCell>
+              <TableCell>{TeamMemberTable.Designation}</TableCell>
+              <TableCell>{TeamMemberTable.Project}</TableCell>
+              <TableCell>{TeamMemberTable.Skills}</TableCell>
+              <TableCell>{TeamMemberTable.Location}</TableCell>
+              <TableCell>{TeamMemberTable.ContactNo}</TableCell>
               <TableCell>
               <Tooltip title="Edit Employee List">
-                <IconButton sx={{color: 'blue','&:hover': {color:'darkblue'}}} onClick={() => handleEdit(row.EmpId)}>
+                <IconButton sx={{color: 'blue','&:hover': {color:'darkblue'}}} onClick={() => handleEdit(TeamMemberTable.EmpId)}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>
