@@ -1,0 +1,37 @@
+{
+    "users": [
+      {
+        "EmpID": 123456,
+        "Name": "Pernika",
+        "TrainingTitle": "Java",
+        "TrainingType": "Self",
+        "Mode": "Offline",
+        "PlannedDate": "18/08/23",
+        "StartDate": "20/08/23",
+        "EndDate": "26/08/23",
+        "Status": "In Progress"
+      },
+      {
+        "EmpID": 123457,
+        "Name": "Yash",
+        "TrainingTitle": "Angular JS",
+        "TrainingType": "Corporate",
+        "Mode": "Offline",
+        "PlannedDate": "20/08/23",
+        "StartDate": "21/08/23",
+        "EndDate": "26/08/23",
+        "Status": "In Progress"
+      },
+      {
+        "EmpID": 123459,
+        "Name": "Megha",
+        "TrainingTitle": "Angular JS",
+        "TrainingType": "Corporate",
+        "Mode": "Offline",
+        "PlannedDate": "20/08/23",
+        "StartDate": "25/08/23",
+        "EndDate": "29/08/23",
+        "Status": "In Progress"
+      }      
+    ]
+}

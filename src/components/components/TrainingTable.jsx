@@ -1,4 +1,7 @@
 import * as React from 'react';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -26,6 +29,7 @@ import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+
 
 // styling the search bar
 const Search = styled('div')(({ theme }) => ({
@@ -186,6 +190,19 @@ export default function TrainingTable() {
     setPage(0);
   };
 
+
+  // Fetching data by creating hooks and axios
+  //using useState to put items into table
+  const [data, setData] = useState([])
+
+  // Using useEffect to use db.json
+  useEffect(() => {
+    axios.get("http://localhost:5050/users")
+    .then(response => setData(response.data))
+    .catch(err => console.log(err))
+  }, [])
+
+
   return (
     <Box sx={{ paddingRight:20,paddingLeft:20}}>
           <AppBar position="static">
@@ -217,34 +234,43 @@ export default function TrainingTable() {
     <TableContainer component={Paper} >
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
       <TableHead >
-          <TableRow>
-            <TableCell sx={{ fontWeight: 'bold' }}>EmpID</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Name</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Training Title</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Training Type</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Mode</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Planned Date</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Start Date</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >End Date</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Status</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Actions</TableCell>
+          <TableRow sx={{fontWeight:"bold"}}>
+            <TableCell >EmpID</TableCell>
+            <TableCell >Name</TableCell>
+            <TableCell >Training Title</TableCell>
+            <TableCell >Training Type</TableCell>
+            <TableCell >Mode</TableCell>
+            <TableCell >Planned Date</TableCell>
+            <TableCell >Start Date</TableCell>
+            <TableCell >End Date</TableCell>
+            <TableCell >Status</TableCell>
+            <TableCell >Actions</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row) => (
-            <TableRow key={row.EmpId}>
-              <TableCell component="th" scope="row">{row.EmpId}</TableCell>
-              <TableCell>{row.Name}</TableCell>
-              <TableCell>{row.TrainingTitle}</TableCell>
-              <TableCell>{row.TrainingType}</TableCell>
-              <TableCell>{row.Mode}</TableCell>
-              <TableCell>{row.PlannedDate}</TableCell>
-              <TableCell>{row.StartDate}</TableCell>
-              <TableCell>{row.EndDate}</TableCell>
-              <TableCell>{row.Status}</TableCell>
+        <TableBody>{
+          data.map((user, index) => (
+            <TableRow key={index}>
+{/* this is the entry that should be filled by db.json */}
+              <TableCell component="th" scope="row">{user.EmpID}</TableCell>
+              <TableCell>{user.Name}</TableCell>
+              <TableCell>{user.TrainingTitle}</TableCell>
+              <TableCell>{user.TrainingType}</TableCell>
+              <TableCell>{user.Mode}</TableCell>
+              <TableCell>{user.PlannedDate}</TableCell>
+              <TableCell>{user.StartDate}</TableCell>
+              <TableCell>{user.EndDate}</TableCell>
+              <TableCell>{user.Status}</TableCell>
+
+{/* Sample API from jsonplaceholder */}
+              {/* <TableCell>{user.id}</TableCell>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{user.username}</TableCell>
+              <TableCell>{user.address.city}</TableCell>
+              <TableCell>{user.address.zipcode}</TableCell>
+              <TableCell>{user.phone}</TableCell>
+              <TableCell>{user.website}</TableCell>
+              <TableCell>{user.company.name}</TableCell>
+              <TableCell>{user.company.bs}</TableCell> */}
               <TableCell>
               <Tooltip title="Edit Employee List">
                 <IconButton sx={{color: 'blue','&:hover': {color:'darkblue'}}} onClick={() => handleEdit(row.EmpId)}>
