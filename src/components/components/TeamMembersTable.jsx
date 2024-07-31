@@ -1,7 +1,5 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -24,13 +22,14 @@ import AddIcon from '@mui/icons-material/Add';
 import UploadIcon from '@mui/icons-material/Upload';
 import DownloadIcon from '@mui/icons-material/Download';
 import SearchIcon from '@mui/icons-material/Search';
-import {TextField,Tooltip} from '@mui/material';
+import {Tooltip} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar'; 
 import InputBase from '@mui/material/InputBase';
 
+// to style the search icon in the table header
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -71,10 +70,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+// table pagination for footer
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
-
+// handle page changes in footer
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
   };
@@ -134,19 +134,33 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(EmpId,Name,Grade,Designation,Project,Skills,Location,ContactNo) {
-  return { EmpId,Name,Grade,Designation,Project,Skills,Location,ContactNo };
-}
+// function createData(EmpId,Name,Grade,Designation,Project,Skills,Location,ContactNo) {
+//   return { EmpId,Name,Grade,Designation,Project,Skills,Location,ContactNo };
+// }
 
-const rows = [
-  createData(123456,'Pernika', 'A1','Sn.Software Engineer','Team Services','Java','Noida','75754-86584'),
-  createData(123457,'Yash', 'A1','Jn.Software Engineer','Team Services','Java','Noida','75785-78686'),
-  createData(123459,'Megha', 'A3','Software Engineer','Feedback Portal','Angular JS','Noida','73683-83273'),
-  createData(123452,'Vishal', 'A1','Module Lead','Team Services','React JS','Noida','73862-84687'),
-  createData(123451,'Nidhi', 'A1','Teach Lead','Team Services','Angular JS','Noida','75736-48667'),
-]
+// const rows = [
+//   createData(123456,'Pernika', 'A1','Sn.Software Engineer','Team Services','Java','Noida','75754-86584'),
+//   createData(123457,'Yash', 'A1','Jn.Software Engineer','Team Services','Java','Noida','75785-78686'),
+//   createData(123459,'Megha', 'A3','Software Engineer','Feedback Portal','Angular JS','Noida','73683-83273'),
+//   createData(123452,'Vishal', 'A1','Module Lead','Team Services','React JS','Noida','73862-84687'),
+//   createData(123451,'Nidhi', 'A1','Teach Lead','Team Services','Angular JS','Noida','75736-48667'),
+// ]
 
-export default function TeamMembersTable() {
+const TeamMembersTable=()=> {
+
+  const[employeesData,setEmployeesData]=useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/employeesData')
+      .then(response => {
+        setEmployeesData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      });
+  }, []);
+  
+
 
   const handleEdit=(EmpId) => {
     console.log(`Edit item with EmpId: ${EmpId}`);
@@ -179,28 +193,11 @@ export default function TeamMembersTable() {
     setPage(0);
   };
 
-  // Fetching data by creating hooks and axios
-  //using useState to put items into table
-  const [data, setData] = useState([])
-
-  // Using useEffect to use db.json
-  useEffect(() => {
-    axios.get("http://localhost:5050/TeamMemberTable")
-    .then(response => setData(response.data))
-    .catch(err => console.log(err))
-  }, [])
-
   return (
     <Box sx={{ paddingRight:20,paddingLeft:20}}>
-      {/* Toolbar with search bar and icons */}
-      {/* <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 2, 
-        justifyContent: 'flex-end'
-      }}> */}
+
         <AppBar  position='static'>
-          <Toolbar display='flex' justifyContent='flex-end'>
+          <Toolbar display='flex' justifycontent='flex-end'>
           <Typography
             variant='inherit'
             noWrap
@@ -218,20 +215,6 @@ export default function TeamMembersTable() {
             />
           </Search>
         
-       {/* <TextField
-          variant="outlined"
-          size="small"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          InputProps={{
-            startAdornment: (
-              <IconButton sx={{ padding: 1}}>
-                <SearchIcon />
-              </IconButton>
-            ),
-          }}/> */}
-
         <Tooltip  title="Add Employee">
           <IconButton style={{ marginLeft: '400px' }} sx={{backgroundColor: 'blue', color: 'white','&:hover': {backgroundColor: 'darkblue'}}}>
             <AddIcon />
@@ -249,7 +232,7 @@ export default function TeamMembersTable() {
         </Tooltip>
         </Toolbar>
         </AppBar>
-      {/* </Box> */}
+      
 
     <TableContainer component={Paper} >
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
@@ -266,22 +249,23 @@ export default function TeamMembersTable() {
             <TableCell sx={{ fontWeight: 'bold' }} >Actions</TableCell>
           </TableRow>
         </TableHead>
-
-  {/* Here data is coming from db.json file */}
-        <TableBody>{
-          data.map((TeamMemberTable, index) => (
-            <TableRow key={index}>
-              <TableCell component="th" scope="row">{TeamMemberTable.EmpID}</TableCell>
-              <TableCell>{TeamMemberTable.Name}</TableCell>
-              <TableCell>{TeamMemberTable.Grade}</TableCell>
-              <TableCell>{TeamMemberTable.Designation}</TableCell>
-              <TableCell>{TeamMemberTable.Project}</TableCell>
-              <TableCell>{TeamMemberTable.Skills}</TableCell>
-              <TableCell>{TeamMemberTable.Location}</TableCell>
-              <TableCell>{TeamMemberTable.ContactNo}</TableCell>
+        <TableBody>
+          {(rowsPerPage > 0
+            ? employeesData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : employeesData
+          ).map((row) => (
+            <TableRow key={row.EmpId}>
+              <TableCell component="th" scope="row">{row.EmpId}</TableCell>
+              <TableCell>{row.Name}</TableCell>
+              <TableCell>{row.Grade}</TableCell>
+              <TableCell>{row.Designation}</TableCell>
+              <TableCell>{row.Project}</TableCell>
+              <TableCell>{row.Skills}</TableCell>
+              <TableCell>{row.Location}</TableCell>
+              <TableCell>{row.ContactNo}</TableCell>
               <TableCell>
               <Tooltip title="Edit Employee List">
-                <IconButton sx={{color: 'blue','&:hover': {color:'darkblue'}}} onClick={() => handleEdit(TeamMemberTable.EmpId)}>
+                <IconButton sx={{color: 'blue','&:hover': {color:'darkblue'}}} onClick={() => handleEdit(row.EmpId)}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>
@@ -299,7 +283,7 @@ export default function TeamMembersTable() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={9}
-              count={rows.length}
+              count={employeesData.length}
               rowsPerPage={rowsPerPage}
               page={page}
               slotProps={{
@@ -322,3 +306,4 @@ export default function TeamMembersTable() {
     
   );
 }
+export default TeamMembersTable;

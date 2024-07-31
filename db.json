@@ -1,93 +1,123 @@
 {
-    "TrainingTable": [
-      {
-        "id": 1,
-        "EmpID": 123456,
-        "Name": "Pernika",
-        "TrainingTitle": "Java",
-        "TrainingType": "Self",
-        "Mode": "Offline",
-        "PlannedDate": "18/08/23",
-        "StartDate": "20/08/23",
-        "EndDate": "26/08/23",
-        "Status": "In Progress"
-      },
-      {
-        "id": 2,
-        "EmpID": 123457,
-        "Name": "Yash",
-        "TrainingTitle": "Angular JS",
-        "TrainingType": "Corporate",
-        "Mode": "Offline",
-        "PlannedDate": "20/08/23",
-        "StartDate": "21/08/23",
-        "EndDate": "26/08/23",
-        "Status": "In Progress"
-      },
-      {
-        "id": 3,
-        "EmpID": 123459,
-        "Name": "Megha",
-        "TrainingTitle": "Angular JS",
-        "TrainingType": "Corporate",
-        "Mode": "Offline",
-        "PlannedDate": "20/08/23",
-        "StartDate": "25/08/23",
-        "EndDate": "29/08/23",
-        "Status": "In Progress"
-      }      
-    ],
-
-    "TeamMemberTable":[
-      {
-        "EmpID":123456,
-        "Name": "Pernika",
-        "Grade": "A1",
-        "Designation": "Sn. Software Engineer",
-        "Project": "Team Services",
-        "Skills": "Java",
-        "Location": "Noida",
-        "ContactNo": 7575486584
-      },
-      {
-        "EmpID":123457,
-        "Name": "Yash",
-        "Grade": "A1",
-        "Designation": "Jn. Software Engineer",
-        "Project": "Team Services",
-        "Skills": "Java",
-        "Location": "Noida",
-        "ContactNo": 7575486585
-      },
-      {
-        "EmpID":123459,
-        "Name": "Megha",
-        "Grade": "A3",
-        "Designation": "Software Engineer",
-        "Project": "Feedback Portal",
-        "Skills": "Angular JS",
-        "Location": "Noida",
-        "ContactNo": 7575486586
-      },
-      {
-        "EmpID":123456,
-        "Name": "Pernika",
-        "Grade": "A1",
-        "Designation": "Module Lead",
-        "Project": "Team Services",
-        "Skills": "React",
-        "Location": "Noida",
-        "ContactNo": 7575486587
-      },
-      {
-        "EmpID":123456,
-        "Name": "Pernika",
-        "Grade": "A1",
-        "Designation": "Teach Lead",
-        "Project": "Team Services",
-        "Skills": "Angular JS",
-        "Location": "Noida",
-        "ContactNo": 7575486588
-      }
-    ]
+    "employeesData": [
+    {
+      "EmpId": 123456,
+      "Name": "Pernika",
+      "Grade": "A1",
+      "Designation": " Sn. Software Engineer",
+      "Project": "Team Services",
+      "Skills": "Java",
+      "Location": "Noida",
+      "ContactNo": "75754-86584",
+      "id": 1,
+      "Icons": ""
+    },
+    {
+      "EmpId": 123457,
+      "Name": "Yash",
+      "Grade": "A1",
+      "Designation": "Jn. Software Engineer",
+      "Project": "Team Services",
+      "Skills": "Java",
+      "Location": "Noida",
+      "ContactNo": "75785-78686",
+      "id": 2
+    },
+    {
+      "EmpId": 123459,
+      "Name": "Megha",
+      "Grade": "A3",
+      "Designation": "Software Engineer",
+      "Project": "Feedback Portal",
+      "Skills": "Angular Js",
+      "Location": "Noida",
+      "ContactNo": "73683-83273",
+      "id": 3
+    },
+    {
+      "EmpId": 123452,
+      "Name": "Vishal",
+      "Grade": "A1",
+      "Designation": "Module Lead",
+      "Project": "Team Services",
+      "Skills": "React Js",
+      "Location": "Noida",
+      "ContactNo": "73862-84687",
+      "id": 4
+    },
+    {
+      "EmpId": 123451,
+      "Name": "Nidhi",
+      "Grade": "A1",
+      "Designation": "Teach Lead",
+      "Project": "Team Services",
+      "Skills": "Angular Js",
+      "Location": "Noida",
+      "ContactNo": "75736-48667",
+      "id": 5
+    },
+    {
+      "EmpId": 123453,
+      "Name": "Ram",
+      "Grade": "C1",
+      "Designation": "Associate Architect",
+      "Project": "Team Services",
+      "Skills": "NextJs",
+      "Location": "Bangalore",
+      "ContactNo": "73547-76386",
+      "id": 6
+    },
+    {
+      "EmpId": 123454,
+      "Name": "Rohan",
+      "Grade": "C2",
+      "Designation": "Architect",
+      "Project": "Team Services",
+      "Skills": "Angular Js",
+      "Location": "Noida",
+      "ContactNo": "73562-73682",
+      "id": 7
+    }
+  ],
+  "trainingData": [
+    {
+      "EmpId": 123456,
+      "TrainingTitle": "Java",
+      "TrainingType": "Self",
+      "PlannedDate": "2023-08-17T18:30:00.000Z",
+      "StartDate": "2023-08-19T18:30:00.000Z",
+      "EndDate": "2023-08-25T18:30:00.000Z",
+      "Reference": "https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655710?start=60#overview",
+      "Name": "Pernika(123456)",
+      "Status": "In Progress",
+      "Mode": "offline",
+      "id": 1
+    },
+    {
+      "EmpId": 123457,
+      "TrainingTitle": "Angular Js",
+      "TrainingType": "Corporate",
+      "PlannedDate": "2023-08-19T18:30:00.000Z",
+      "StartDate": "2023-08-20T18:30:00.000Z",
+      "EndDate": "2023-08-25T18:30:00.000Z",
+      "Reference": "https://www.youtube.com/watch?v=RJ733wzbNoA&list=PLxgZQoSe9cg00xyG5gzb5BMkOClkch7Gr",
+      "Name": "Yash(123457)",
+      "Status": "In Progress",
+      "Mode": "offline",
+      "id": 2
+    },
+    {
+      "EmpId": 123459,
+      "TrainingTitle": "Angular Js",
+      "TrainingType": "Corporate",
+      "PlannedDate": "2023-08-19T18:30:00.000Z",
+      "StartDate": "2023-09-24T18:30:00.000Z",
+      "EndDate": "2023-09-28T18:30:00.000Z",
+      "Reference": "https://www.udemy.com/",
+      "Name": "Megha(123459)",
+      "Status": "In Progress",
+      "Mode": "offline",
+      "id": 3
+    }
+  ]
 }
