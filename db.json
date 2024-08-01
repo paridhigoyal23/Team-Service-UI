@@ -3,7 +3,7 @@
     {
       "EmpId": 123456,
       "Name": "Pernika",
-      "Grade": "A2",
+      "Grade": "A1",
       "Designation": " Sn. Software Engineer",
       "Project": "Team Services",
       "Skills": "Java",
@@ -77,6 +77,17 @@
       "Location": "Noida",
       "ContactNo": "73562-73682",
       "id": "7"
+    },
+    {
+      "id": "021c",
+      "EmpId": "123470",
+      "Name": "Anjali",
+      "Grade": "A3",
+      "Designation": "Frontend Developer",
+      "Project": "Team Services",
+      "Skills": "Web Development",
+      "Location": "Ghaziabad",
+      "ContactNo": "8218242146"
     }
   ],
   "trainingData": [

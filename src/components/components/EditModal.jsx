@@ -15,11 +15,11 @@ const style = {
 
 const EditModal = ({ open, handleClose, employee, handleSave }) => {
   const [editEmployee, setEditEmployee] = useState({ ...employee });
-
+//set the edited data
   useEffect(() => {
     setEditEmployee({ ...employee });
   }, [employee]);
-
+//set the editr=ed data in api
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditEmployee((prev) => ({
@@ -27,7 +27,7 @@ const EditModal = ({ open, handleClose, employee, handleSave }) => {
       [name]: value,
     }));
   };
-
+//handles the submit click
   const handleSubmit = (e) => {
     e.preventDefault();
     handleSave(editEmployee);
