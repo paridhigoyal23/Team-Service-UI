@@ -135,16 +135,6 @@ TablePaginationActions.propTypes = {
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-//data to be filled in the tables
-function createData(EmpId,Name,TrainingTitle,TrainingType,Mode,PlannedDate,StartDate,EndDate,Status) {
-  return {EmpId, Name,TrainingTitle,TrainingType,Mode,PlannedDate,StartDate,EndDate,Status };
-}
-
-const rows = [
-  createData(123456,'Pernika', 'Java','Self','Offline','18/08/23','20/08/23','26/08/2-23','In Progress'),
-  createData(123457,'Yash', 'Angular JS','Corporate','Offline','20/08/23','21/08/2023','26/08/2-23','In Progress'),
-  createData(123459,'Megha', 'Angular JS','Corporate','Offline','20/08/23','25/08/2023','29/08/2-23','In Progress')
-]
 
 export default function TrainingTable() {
 // Implement edit functionality here
@@ -157,10 +147,7 @@ export default function TrainingTable() {
     setSearchTerm(event.target.value);
   };
 
-  // // Filter data based on search term
-  // const filteredData = data.filter(row =>
-  //   row.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+ 
 
 // Implement copy functionality here
     const [copyContent, setCopyContent] = React.useState(false);
@@ -193,12 +180,12 @@ export default function TrainingTable() {
 
   // Fetching data by creating hooks and axios
   //using useState to put items into table
-  const [data, setData] = useState([])
+  const [trainingData, setTrainingData] = useState([])
 
   // Using useEffect to use db.json
   useEffect(() => {
-    axios.get("http://localhost:5050/TrainingTable")
-    .then(response => setData(response.data))
+    axios.get("http://localhost:8000/trainingData")
+    .then(response => setTrainingData(response.data))
     .catch(err => console.log(err))
   }, [])
 
@@ -234,7 +221,6 @@ export default function TrainingTable() {
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
       <TableHead >
           <TableRow>
-            <TableCell sx={{fontWeight:"bold"}}>EmpID</TableCell>
             <TableCell sx={{fontWeight:"bold"}} >Name</TableCell>
             <TableCell sx={{fontWeight:"bold"}} >Training Title</TableCell>
             <TableCell sx={{fontWeight:"bold"}} >Training Type</TableCell>
@@ -246,30 +232,22 @@ export default function TrainingTable() {
             <TableCell sx={{fontWeight:"bold"}} >Actions</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>{
-          data.map((TrainingTable, index) => (
-            <TableRow key={index}>
+        <TableBody>
+          {(rowsPerPage > 0
+            ? trainingData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : trainingData
+          ).map((row) => (
+            <TableRow key={row.Name}>
 {/* this is the entry that should be filled by db.json */}
-              <TableCell component="th" scope="row">{TrainingTable.EmpID}</TableCell>
-              <TableCell>{TrainingTable.Name}</TableCell>
-              <TableCell>{TrainingTable.TrainingTitle}</TableCell>
-              <TableCell>{TrainingTable.TrainingType}</TableCell>
-              <TableCell>{TrainingTable.Mode}</TableCell>
-              <TableCell>{TrainingTable.PlannedDate}</TableCell>
-              <TableCell>{TrainingTable.StartDate}</TableCell>
-              <TableCell>{TrainingTable.EndDate}</TableCell>
-              <TableCell>{TrainingTable.Status}</TableCell>
+              <TableCell>{row.Name}</TableCell>
+              <TableCell>{row.TrainingTitle}</TableCell>
+              <TableCell>{row.TrainingType}</TableCell>
+              <TableCell>{row.Mode}</TableCell>
+              <TableCell>{row.PlannedDate}</TableCell>
+              <TableCell>{row.StartDate}</TableCell>
+              <TableCell>{row.EndDate}</TableCell>
+              <TableCell>{row.Status}</TableCell>
 
-{/* Sample API from jsonplaceholder */}
-              {/* <TableCell>{TrainingTable.id}</TableCell>
-              <TableCell>{TrainingTable.name}</TableCell>
-              <TableCell>{TrainingTable.TrainingTablename}</TableCell>
-              <TableCell>{TrainingTable.address.city}</TableCell>
-              <TableCell>{TrainingTable.address.zipcode}</TableCell>
-              <TableCell>{TrainingTable.phone}</TableCell>
-              <TableCell>{TrainingTable.website}</TableCell>
-              <TableCell>{TrainingTable.company.name}</TableCell>
-              <TableCell>{TrainingTable.company.bs}</TableCell> */}
               <TableCell>
           {/* Edit Icon  */}
               <Tooltip title="Edit Employee List">
@@ -297,7 +275,7 @@ export default function TrainingTable() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={9}
-              count={rows.length}
+              count={trainingData.length}
               rowsPerPage={rowsPerPage}
               page={page}
               slotProps={{
