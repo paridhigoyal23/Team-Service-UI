@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import UserForm from '../../Elements/TrainingTable/AddIcon/UserFrom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
@@ -18,19 +19,17 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import TableHead  from '@mui/material/TableHead';
+import TableHead from '@mui/material/TableHead';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import UploadIcon from '@mui/icons-material/Upload';
 import DownloadIcon from '@mui/icons-material/Download';
 import SearchIcon from '@mui/icons-material/Search';
-import {TextField,Tooltip} from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Tooltip, Modal, Typography, AppBar, Toolbar, InputBase } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar'; 
-import InputBase from '@mui/material/InputBase';
 
+// Styling for the search bar in the table header
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -71,6 +70,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+// Pagination component for the footer of the table
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -125,8 +125,6 @@ function TablePaginationActions(props) {
   );
 }
 
-
-
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
@@ -134,41 +132,38 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(EmpId,Name,Grade,Designation,Project,Skills,Location,ContactNo) {
-  return { EmpId,Name,Grade,Designation,Project,Skills,Location,ContactNo };
-}
+const TeamMembersTable = () => {
+  const [employeesData, setEmployeesData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
-const rows = [
-  createData(123456,'Pernika', 'A1','Sn.Software Engineer','Team Services','Java','Noida','75754-86584'),
-  createData(123457,'Yash', 'A1','Jn.Software Engineer','Team Services','Java','Noida','75785-78686'),
-  createData(123459,'Megha', 'A3','Software Engineer','Feedback Portal','Angular JS','Noida','73683-83273'),
-  createData(123452,'Vishal', 'A1','Module Lead','Team Services','React JS','Noida','73862-84687'),
-  createData(123451,'Nidhi', 'A1','Teach Lead','Team Services','Angular JS','Noida','75736-48667'),
-]
+  useEffect(() => {
+    axios.get('http://localhost:8000/employeesData')
+      .then(response => {
+        setEmployeesData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+      });
+  }, []);
 
-export default function TeamMembersTable() {
-
-  const handleEdit=(EmpId) => {
+  const handleEdit = (EmpId) => {
     console.log(`Edit item with EmpId: ${EmpId}`);
     // Implement edit functionality here
   };
-  const [searchTerm, setSearchTerm] = React.useState('');
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  // // Filter data based on search term
-  // const filteredData = data.filter(row =>
-  //   row.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  // Filter data based on search term
+  const filteredData = employeesData.filter((row) =>
+    row.Name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredData.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -179,32 +174,68 @@ export default function TeamMembersTable() {
     setPage(0);
   };
 
-  // Fetching data by creating hooks and axios
-  //using useState to put items into table
-  const [data, setData] = useState([])
+  const [isFormVisible, setFormVisible] = useState(false);
+  
+  const toggleFormVisibility = () => {
+    setFormVisible(!isFormVisible);
+  };
 
-  // Using useEffect to use db.json
-  useEffect(() => {
-    axios.get("http://localhost:5050/TeamMemberTable")
-    .then(response => setData(response.data))
-    .catch(err => console.log(err))
-  }, [])
+  const handleFormSubmit = async (newData) => {
+    try {
+      // Send a POST request to add new employee data to db.json via json-server
+      const response = await axios.post('http://localhost:8000/employeesData', {
+        EmpId: employeesData.length + 1, // Generate a new ID
+        ...newData,
+      });
+  
+      // Check if the request was successful
+      if (response.status === 201) {
+        // Update the local state with the new employee data from the response
+        setEmployeesData([...employeesData, response.data]);
+        setFormVisible(false); // Hide the form after submission
+      } else {
+        console.error('Failed to add employee:', response);
+      }
+    } catch (error) {
+      console.error('Error adding employee:', error);
+    }
+  };
+
+
+  const handleDelete = async (empId) => {
+    try {
+      // Send a DELETE request to remove the employee data with the specified ID
+      const response = await axios.delete(`http://localhost:8000/employeesData/${empId}`);
+  
+      if (response.status === 200) {
+        // Update the local state to remove the deleted employee from the list
+        setEmployeesData(employeesData.filter((employee) => employee.EmpId !== empId));
+        console.log(`Employee with ID ${empId} deleted successfully`);
+      } else {
+        console.error('Failed to delete employee:', response);
+      }
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+    }
+  };
+
+
+  const downloadEmployee = () => {
+    console.log("Download Employee List button was clicked" + Date.now());
+  };
+
+  const uploadEmployee = () => {
+    console.log("Upload Employee List button was clicked" + Date.now());
+  };
 
   return (
-    <Box sx={{ paddingRight:20,paddingLeft:20}}>
-      {/* Toolbar with search bar and icons */}
-      {/* <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 2, 
-        justifyContent: 'flex-end'
-      }}> */}
-        <AppBar  position='static'>
-          <Toolbar display='flex' justifyContent='flex-end'>
+    <Box sx={{ paddingRight: 20, paddingLeft: 20 }}>
+      <AppBar position='static'>
+        <Toolbar display='flex' justifycontent='flex-end'>
           <Typography
             variant='inherit'
             noWrap
-            sx={{ color:'' ,display: { xs: 'none', sm: 'block' } }}
+            sx={{ color: '', display: { xs: 'none', sm: 'block' } }}
           >
             Employee
           </Typography>
@@ -215,110 +246,161 @@ export default function TeamMembersTable() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
           </Search>
-        
-       {/* <TextField
-          variant="outlined"
-          size="small"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          InputProps={{
-            startAdornment: (
-              <IconButton sx={{ padding: 1}}>
-                <SearchIcon />
-              </IconButton>
-            ),
-          }}/> */}
-
-        <Tooltip  title="Add Employee">
-          <IconButton style={{ marginLeft: '400px' }} sx={{backgroundColor: 'blue', color: 'white','&:hover': {backgroundColor: 'darkblue'}}}>
-            <AddIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Upload Employee List">
-          <IconButton style={{ marginLeft: '8px' }} sx={{backgroundColor: 'red', color: 'white','&:hover': {backgroundColor: 'darkred'}}}>
-            <UploadIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Download Employee List">
-          <IconButton style={{ marginLeft: '8px' }} sx={{backgroundColor: 'green', color: 'white','&:hover': {backgroundColor: 'darkred'}}}>
-            <DownloadIcon />
-          </IconButton>
-        </Tooltip>
-        </Toolbar>
-        </AppBar>
-      {/* </Box> */}
-
-    <TableContainer component={Paper} >
-      <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-      <TableHead >
-          <TableRow>
-            <TableCell sx={{ fontWeight: 'bold' }}>EmpID</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Name</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Grade</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Designation</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Project</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Skills</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Location</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >ContactNo</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }} >Actions</TableCell>
-          </TableRow>
-        </TableHead>
-
-  {/* Here data is coming from db.json file */}
-        <TableBody>{
-          data.map((TeamMemberTable, index) => (
-            <TableRow key={index}>
-              <TableCell component="th" scope="row">{TeamMemberTable.EmpID}</TableCell>
-              <TableCell>{TeamMemberTable.Name}</TableCell>
-              <TableCell>{TeamMemberTable.Grade}</TableCell>
-              <TableCell>{TeamMemberTable.Designation}</TableCell>
-              <TableCell>{TeamMemberTable.Project}</TableCell>
-              <TableCell>{TeamMemberTable.Skills}</TableCell>
-              <TableCell>{TeamMemberTable.Location}</TableCell>
-              <TableCell>{TeamMemberTable.ContactNo}</TableCell>
-              <TableCell>
-              <Tooltip title="Edit Employee List">
-                <IconButton sx={{color: 'blue','&:hover': {color:'darkblue'}}} onClick={() => handleEdit(TeamMemberTable.EmpId)}>
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-              </TableCell>
-            </TableRow>
-          ))}
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={9}
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              slotProps={{
-                select: {
-                  inputProps: {
-                    'aria-label': 'rows per page',
-                  },
-                  native: true,
-                },
+          <Tooltip title="Add Employee" onClick={toggleFormVisibility}>
+            <IconButton
+              style={{ marginLeft: '400px' }}
+              sx={{
+                backgroundColor: 'blue',
+                color: 'white',
+                '&:hover': { backgroundColor: 'darkblue' }
               }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+            >
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Upload Employee List" onClick={uploadEmployee}>
+            <IconButton
+              style={{ marginLeft: '8px' }}
+              sx={{
+                backgroundColor: 'red',
+                color: 'white',
+                '&:hover': { backgroundColor: 'darkred' }
+              }}
+            >
+              <UploadIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Download Employee List" onClick={downloadEmployee}>
+            <IconButton
+              style={{ marginLeft: '8px' }}
+              sx={{
+                backgroundColor: 'green',
+                color: 'white',
+                '&:hover': { backgroundColor: 'darkgreen' }
+              }}
+            >
+              <DownloadIcon />
+            </IconButton>
+          </Tooltip>
+        </Toolbar>
+      </AppBar>
+
+      <Modal
+        open={isFormVisible}
+        onClose={toggleFormVisibility}
+        aria-labelledby="add-employee-modal-title"
+        aria-describedby="add-employee-modal-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 20,
+            p: 4,
+            lineHeight: 2,
+            fontWeight: 600,
+            wordSpacing: 2
+          }}
+        >
+          <Typography id="add-employee-modal-title" variant="h5" component="h2">
+            Add New Employee
+          </Typography>
+          <UserForm onSubmit={handleFormSubmit} onCancel={toggleFormVisibility} />
+          
+        </Box>
+      </Modal>
+
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ fontWeight: 'bold' }}>EmpID</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Grade</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Designation</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Project</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Skills</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Location</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>ContactNo</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+  {(rowsPerPage > 0
+    ? filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    : filteredData
+  ).map((row) => (
+    <TableRow key={row.EmpId}>
+      <TableCell component="th" scope="row">{row.EmpId}</TableCell>
+      <TableCell>{row.Name}</TableCell>
+      <TableCell>{row.Grade}</TableCell>
+      <TableCell>{row.Designation}</TableCell>
+      <TableCell>{row.Project}</TableCell>
+      <TableCell>{row.Skills}</TableCell>
+      <TableCell>{row.Location}</TableCell>
+      <TableCell>{row.ContactNo}</TableCell>
+      <TableCell>
+        <Tooltip title="Edit Employee">
+          <IconButton
+            sx={{ color: 'blue', '&:hover': { color: 'darkblue' } }}
+            onClick={() => handleEdit(row.EmpId)}
+          >
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete Employee">
+          <IconButton
+            sx={{ color: 'red', '&:hover': { color: 'darkred' } }}
+            onClick={() => handleDelete(row.id)}
+          >
+            <HighlightOffOutlinedIcon />
+          </IconButton>
+        </Tooltip>
+      </TableCell>
+    </TableRow>
+  ))}
+  {emptyRows > 0 && (
+    <TableRow style={{ height: 53 * emptyRows }}>
+      <TableCell colSpan={9} />
+    </TableRow>
+  )}
+</TableBody>
+
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                colSpan={9}
+                count={filteredData.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                slotProps={{
+                  select: {
+                    inputProps: {
+                      'aria-label': 'rows per page',
+                    },
+                    native: true,
+                  },
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
     </Box>
-    
   );
 }
+
+export default TeamMembersTable;
