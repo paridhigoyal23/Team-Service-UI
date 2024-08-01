@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import UserForm from '../../Elements/TrainingTable/AddIcon/UserFrom';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
