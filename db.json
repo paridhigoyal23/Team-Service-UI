@@ -1,5 +1,5 @@
 {
-    "employeesData": [
+  "employeesData": [
     {
       "EmpId": 123456,
       "Name": "Pernika",
@@ -9,7 +9,7 @@
       "Skills": "Java",
       "Location": "Noida",
       "ContactNo": "75754-86584",
-      "id": 1,
+      "id": "1",
       "Icons": ""
     },
     {
@@ -21,7 +21,7 @@
       "Skills": "Java",
       "Location": "Noida",
       "ContactNo": "75785-78686",
-      "id": 2
+      "id": "2"
     },
     {
       "EmpId": 123459,
@@ -32,7 +32,7 @@
       "Skills": "Angular Js",
       "Location": "Noida",
       "ContactNo": "73683-83273",
-      "id": 3
+      "id": "3"
     },
     {
       "EmpId": 123452,
@@ -43,7 +43,7 @@
       "Skills": "React Js",
       "Location": "Noida",
       "ContactNo": "73862-84687",
-      "id": 4
+      "id": "4"
     },
     {
       "EmpId": 123451,
@@ -54,7 +54,7 @@
       "Skills": "Angular Js",
       "Location": "Noida",
       "ContactNo": "75736-48667",
-      "id": 5
+      "id": "5"
     },
     {
       "EmpId": 123453,
@@ -65,7 +65,7 @@
       "Skills": "NextJs",
       "Location": "Bangalore",
       "ContactNo": "73547-76386",
-      "id": 6
+      "id": "6"
     },
     {
       "EmpId": 123454,
@@ -76,7 +76,7 @@
       "Skills": "Angular Js",
       "Location": "Noida",
       "ContactNo": "73562-73682",
-      "id": 7
+      "id": "7"
     }
   ],
   "trainingData": [
@@ -91,7 +91,7 @@
       "Name": "Pernika(123456)",
       "Status": "In Progress",
       "Mode": "offline",
-      "id": 1
+      "id": "1"
     },
     {
       "EmpId": 123457,
@@ -104,7 +104,7 @@
       "Name": "Yash(123457)",
       "Status": "In Progress",
       "Mode": "offline",
-      "id": 2
+      "id": "2"
     },
     {
       "EmpId": 123459,
@@ -117,7 +117,7 @@
       "Name": "Megha(123459)",
       "Status": "In Progress",
       "Mode": "offline",
-      "id": 3
+      "id": "3"
     }
   ]
 }
