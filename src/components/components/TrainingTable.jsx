@@ -200,6 +200,8 @@ export default function TrainingTable() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
           </Search>
 
