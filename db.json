@@ -1,7 +1,7 @@
 {
   "employeesData": [
     {
-      "EmpId": 123456,
+      "EmpId": "123456",
       "Name": "Pernika",
       "Grade": "A1",
       "Designation": " Sn. Software Engineer",
@@ -13,7 +13,7 @@
       "Icons": ""
     },
     {
-      "EmpId": 123457,
+      "EmpId": "123457",
       "Name": "Yash",
       "Grade": "A1",
       "Designation": "Jn. Software Engineer",
@@ -77,22 +77,10 @@
       "Location": "Noida",
       "ContactNo": "73562-73682",
       "id": "7"
-    },
-    {
-      "id": "021c",
-      "EmpId": "123470",
-      "Name": "Anjali",
-      "Grade": "A3",
-      "Designation": "Frontend Developer",
-      "Project": "Team Services",
-      "Skills": "Web Development",
-      "Location": "Ghaziabad",
-      "ContactNo": "8218242146"
     }
   ],
   "trainingData": [
     {
-      "EmpId": 123456,
       "TrainingTitle": "Java",
       "TrainingType": "Self",
       "PlannedDate": "2023-08-17T18:30:00.000Z",
@@ -105,7 +93,6 @@
       "id": "1"
     },
     {
-      "EmpId": 123457,
       "TrainingTitle": "Angular Js",
       "TrainingType": "Corporate",
       "PlannedDate": "2023-08-19T18:30:00.000Z",
@@ -118,7 +105,6 @@
       "id": "2"
     },
     {
-      "EmpId": 123459,
       "TrainingTitle": "Angular Js",
       "TrainingType": "Corporate",
       "PlannedDate": "2023-08-19T18:30:00.000Z",
