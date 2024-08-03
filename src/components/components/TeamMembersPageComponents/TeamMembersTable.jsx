@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -31,22 +30,25 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import EditModal from './EditModal';
 import AddModal from './AddModal';
+import UploadModal from './UploadModal';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
-  const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.grey[200], // Light grey shade
-    '&:hover': {
-      backgroundColor: theme.palette.grey[300], // Slightly darker on hover
-    },
-    marginRight: theme.spacing(2),
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.grey[200],
+  '&:hover': {
+    backgroundColor: theme.palette.grey[300],
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: theme.spacing(2),
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(2),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(2),
-      width: 'auto',
-    },
-  }));
+    width: 'auto',
+  },
+}));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -56,7 +58,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: theme.palette.text.primary, // Ensure icon color contrasts well with the grey background
+  color: theme.palette.text.primary,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -140,9 +142,8 @@ const TeamMembersTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false); // New state for upload modal
   const [editData, setEditData] = useState({});
- 
-
 
   useEffect(() => {
     axios.get('http://localhost:8000/employeesData')
@@ -197,21 +198,50 @@ const TeamMembersTable = () => {
     setAddModalOpen(false);
   };
 
+  const handleUploadOpen = () => {
+    setUploadModalOpen(true);
+  };
+
+  const handleUploadSave = (newData) => {
+    newData.forEach(employee => {
+      axios.post('http://localhost:8000/employeesData', employee)
+        .then(response => {
+          setEmployeesData(prevData => [...prevData, response.data]);
+        })
+        .catch(error => {
+          console.error('Error adding data: ', error);
+          alert('Failed to add employee. Please try again.');
+        });
+    });
+    setUploadModalOpen(false);
+  };
+
+  const handleUploadClose = () => {
+    setUploadModalOpen(false);
+  };
+
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
- 
-    // Filter the data based on the search term
-    const filteredData = employeesData.filter((row) =>
-      row.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.Grade.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.Designation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.Project.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.Skills.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.Location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.ContactNo.toLowerCase().includes(searchTerm.toLowerCase()) 
-    );
+  const handleDownload = () => {
+    const worksheet = XLSX.utils.json_to_sheet(employeesData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Employees');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(data, 'employees_list.xlsx');
+  };
+
+  const filteredData = employeesData.filter((row) =>
+    row.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.Grade.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.Designation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.Project.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.Skills.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.Location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.ContactNo.toLowerCase().includes(searchTerm.toLowerCase()) 
+  );
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredData.length) : 0;
 
@@ -261,6 +291,7 @@ const TeamMembersTable = () => {
           </Tooltip>
           <Tooltip title="Upload Employee List">
             <IconButton
+              onClick={handleUploadOpen}
               style={{ marginLeft: '8px' }}
               sx={{
                 backgroundColor: 'red',
@@ -273,6 +304,7 @@ const TeamMembersTable = () => {
           </Tooltip>
           <Tooltip title="Download Employee List">
             <IconButton
+              onClick={handleDownload}
               style={{ marginLeft: '8px' }}
               sx={{
                 backgroundColor: 'green',
@@ -316,15 +348,15 @@ const TeamMembersTable = () => {
                 <TableCell>{row.Location}</TableCell>
                 <TableCell>{row.ContactNo}</TableCell>
                 <TableCell>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Tooltip title="Edit Employee List">
-                    <IconButton
-                      sx={{ color: 'blue', '&:hover': { color: 'darkblue' } }}
-                      onClick={() => handleEdit(row)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </Tooltip>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Tooltip title="Edit Employee List">
+                      <IconButton
+                        sx={{ color: 'blue', '&:hover': { color: 'darkblue' } }}
+                        onClick={() => handleEdit(row)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
                 </TableCell>
               </TableRow>
@@ -360,7 +392,7 @@ const TeamMembersTable = () => {
         </Table>
       </TableContainer>
 
-      {editData && (
+      {editModalOpen && (
         <EditModal
           open={editModalOpen}
           handleClose={handleCloseModal}
@@ -373,6 +405,12 @@ const TeamMembersTable = () => {
         open={addModalOpen}
         handleClose={handleAddClose}
         handleSave={handleAddSave}
+      />
+
+      <UploadModal
+        open={uploadModalOpen}
+        handleClose={handleUploadClose}
+        handleSave={handleUploadSave}
       />
     </Box>
   );
