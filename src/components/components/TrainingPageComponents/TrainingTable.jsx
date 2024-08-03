@@ -28,45 +28,44 @@ import { styled, alpha } from '@mui/material/styles';
 import EditModal from './EditModal';
 import AddModal from './AddModal';
 
-// styling the search bar
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: theme.palette.grey[200], // Light grey shade
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: theme.palette.grey[300], // Slightly darker on hover
   },
-  marginRight: theme.spacing(70),
-  marginLeft: 0,
+  marginRight: theme.spacing(2),
+  marginLeft: theme.spacing(2),
   width: '100%',
   [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
+    marginLeft: theme.spacing(2),
     width: 'auto',
   },
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+padding: theme.spacing(0, 2),
+height: '100%',
+position: 'absolute',
+pointerEvents: 'none',
+display: 'flex',
+alignItems: 'center',
+justifyContent: 'center',
+color: theme.palette.text.primary, // Ensure icon color contrasts well with the grey background
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
+color: 'inherit',
+'& .MuiInputBase-input': {
+  padding: theme.spacing(1, 1, 1, 0),
+  paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  transition: theme.transitions.create('width'),
+  width: '100%',
+  [theme.breakpoints.up('md')]: {
+    width: '20ch',
   },
+},
 }));
 
 // styling the footer
@@ -226,7 +225,7 @@ export default function TrainingTable() {
 
   return (
     <Box sx={{ paddingRight: 10, paddingLeft: 10 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: 'var(--lt-color-gray-400)' }}>
         <Toolbar>
           <Search>
             <SearchIconWrapper>
@@ -234,7 +233,7 @@ export default function TrainingTable() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{ 'aria-label': 'search', style: { color: 'black' } } }
               value={searchTerm}
               onChange={handleSearchChange}
             />
@@ -242,7 +241,7 @@ export default function TrainingTable() {
           <Tooltip title="Add Employee">
             <IconButton
               onClick={handleAdd}
-              style={{ marginLeft: '150px'}}
+              style={{ marginLeft: '700px'}}
               sx={{
                 backgroundColor: 'blue',
                 color: 'white',

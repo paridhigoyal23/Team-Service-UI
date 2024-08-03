@@ -6,8 +6,8 @@ const Navbar = () => {
   return (
     <header>
       <nav>
-      <div className='bg-gradient-to-r from-cyan-500 to-blue-800 flex justify-between py-6 px-8 text-lg text-white'>
-      <div className="font-bold tracking-widest">LOGO</div>
+      <div className='bg-gradient-to-r from-purple-500 to-orange-500 flex justify-between py-6 px-8 text-lg text-white'>
+      <div className="font-bold tracking-widest">Team Service</div>
       <div className='flex gap-5'>
         <ul className='flex gap-5'>
             <li className={styles.li} ><NavLink to="" className={({isActive})=>isActive?styles.active:undefined} end >Dashboard</NavLink></li>

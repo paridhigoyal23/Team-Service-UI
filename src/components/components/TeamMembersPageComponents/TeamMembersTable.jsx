@@ -32,21 +32,21 @@ import InputBase from '@mui/material/InputBase';
 import EditModal from './EditModal';
 import AddModal from './AddModal';
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 50,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
+  const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.grey[200], // Light grey shade
+    '&:hover': {
+      backgroundColor: theme.palette.grey[300], // Slightly darker on hover
+    },
+    marginRight: theme.spacing(2),
     marginLeft: theme.spacing(2),
-    width: 'auto',
-  },
-}));
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(2),
+      width: 'auto',
+    },
+  }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -56,6 +56,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  color: theme.palette.text.primary, // Ensure icon color contrasts well with the grey background
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -225,12 +226,12 @@ const TeamMembersTable = () => {
 
   return (
     <Box sx={{ paddingRight: 10, paddingLeft: 10 }}>
-      <AppBar position='static'>
+      <AppBar position='static' sx={{ backgroundColor: 'var(--lt-color-gray-400)' }}>
         <Toolbar display='flex' justifycontent='flex-end'>
           <Typography
             variant='inherit'
             noWrap
-            sx={{ color: '', display: { xs: 'none', sm: 'block' } }}
+            sx={{ color: 'black', display: { xs: 'none', sm: 'block' } }}
           >
             Employee
           </Typography>
@@ -240,7 +241,7 @@ const TeamMembersTable = () => {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{ 'aria-label': 'search', style: { color: 'black' } }}
               value={searchTerm}
               onChange={handleSearchChange}
             />
