@@ -1,5 +1,5 @@
 import React from 'react'
-import TeamMembersTable from '../../components/components/TeamMembersTable.jsx';
+import TeamMembersTable from '../../components/components/TeamMembersPageComponents/TeamMembersTable';
 const TeamMembers = () => {
   return (
     <div>

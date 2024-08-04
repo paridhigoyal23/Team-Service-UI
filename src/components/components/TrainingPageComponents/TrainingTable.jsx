@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -19,25 +20,28 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead from '@mui/material/TableHead';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import UploadIcon from '@mui/icons-material/Upload';
 import DownloadIcon from '@mui/icons-material/Download';
 import SearchIcon from '@mui/icons-material/Search';
-import { Tooltip, Modal, Typography, AppBar, Toolbar, InputBase } from '@mui/material';
+import { Tooltip, InputBase, AppBar, Toolbar } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { styled, alpha } from '@mui/material/styles';
 import EditModal from './EditModal';
 import AddModal from './AddModal';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 // Styling for the search bar in the table header
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: theme.palette.grey[200], // Light grey shade
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: theme.palette.grey[300], // Slightly darker on hover
   },
   marginRight: theme.spacing(2),
-  marginLeft: 50,
+  marginLeft: theme.spacing(2),
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(2),
@@ -53,6 +57,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  color: theme.palette.text.primary, // Ensure icon color contrasts well with the grey background
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -65,10 +70,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
       width: '20ch',
     },
+    '&::placeholder': {
+      color: 'black',
+    },
   },
 }));
 
-// Pagination component for the footer of the table
+// styling the footer
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -130,27 +138,29 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-const TeamMembersTable = () => {
-  const [employeesData, setEmployeesData] = useState([]);
+export default function TrainingTable() {
+  const [trainingData, setTrainingData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [editData, setEditData] = useState({});
+  const [copySuccess, setCopySuccess] = useState(false);
+  const [copyMessage, setCopyMessage] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:8000/employeesData')
+    axios.get('http://localhost:8000/trainingData')
       .then(response => {
-        setEmployeesData(response.data);
+        setTrainingData(response.data);
       })
       .catch(error => {
         console.error('Error fetching data: ', error);
       });
   }, []);
 
-  const handleEdit = (employee) => {
-    setEditData(employee);
+  const handleEdit = (employeeData) => {
+    setEditData(employeeData);
     setEditModalOpen(true);
   };
 
@@ -172,9 +182,9 @@ const TeamMembersTable = () => {
   };
 
   const handleSave = (updatedEmployee) => {
-    axios.put(`http://localhost:8000/employeesData/${updatedEmployee.id}`, updatedEmployee)
+    axios.put(`http://localhost:8000/trainingData/${updatedEmployee.id}`, updatedEmployee)
       .then(response => {
-        setEmployeesData((prevData) =>
+        setTrainingData((prevData) =>
           prevData.map(emp => emp.id === updatedEmployee.id ? response.data : emp)
         );
         setEditModalOpen(false);
@@ -194,9 +204,9 @@ const TeamMembersTable = () => {
   };
 
   const handleAddSave = (newEmployee) => {
-    axios.post('http://localhost:8000/employeesData', newEmployee)
+    axios.post('http://localhost:8000/trainingData', newEmployee)
       .then(response => {
-        setEmployeesData((prevData) => [...prevData, response.data]);
+        setTrainingData((prevData) => [...prevData, response.data]);
         setAddModalOpen(false);
       })
       .catch(error => {
@@ -213,12 +223,6 @@ const TeamMembersTable = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredData = employeesData.filter((row) =>
-    row.Name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredData.length) : 0;
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -228,24 +232,49 @@ const TeamMembersTable = () => {
     setPage(0);
   };
 
+  const handleDownload = () => {
+    const worksheet = XLSX.utils.json_to_sheet(trainingData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Training Data');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'training_data.xlsx');
+  };
+
+  const handleCopy = (row) => {
+    const rowData = `
+      Name: ${row.Name}
+      Training Title: ${row.TrainingTitle}
+      Training Type: ${row.TrainingType}
+      Mode: ${row.Mode}
+      Planned Date: ${row.PlannedDate}
+      Start Date: ${row.StartDate}
+      End Date: ${row.EndDate}
+      Status: ${row.Status}
+    `;
+    navigator.clipboard.writeText(rowData).then(() => {
+      setCopyMessage(`Details of ${row.Name} copied to clipboard.`);
+      setCopySuccess(true);
+    });
+  };
+
+  const filteredData = trainingData.filter((row) =>
+    row.Name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredData.length) : 0;
+
   return (
-    <Box sx={{ paddingRight: 20, paddingLeft: 20 }}>
-      <AppBar position='static'>
-        <Toolbar display='flex' justifycontent='flex-end'>
-          <Typography
-            variant='inherit'
-            noWrap
-            sx={{ color: '', display: { xs: 'none', sm: 'block' } }}
-          >
-            Employee
-          </Typography>
+    <Box sx={{ paddingRight: 10, paddingLeft: 10 }}>
+      <AppBar position="static" sx={{ backgroundColor: 'var(--lt-color-gray-400)' }}>
+        <Toolbar>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{ 'aria-label': 'search', style: { color: 'black' } }}
               value={searchTerm}
               onChange={handleSearchChange}
             />
@@ -253,7 +282,7 @@ const TeamMembersTable = () => {
           <Tooltip title="Add Employee">
             <IconButton
               onClick={handleAdd}
-              style={{ marginLeft: '400px' }}
+              style={{ marginLeft: '700px'}}
               sx={{
                 backgroundColor: 'blue',
                 color: 'white',
@@ -263,25 +292,15 @@ const TeamMembersTable = () => {
               <AddIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Upload Employee List">
-            <IconButton
-              style={{ marginLeft: '8px' }}
-              sx={{
-                backgroundColor: 'red',
-                color: 'white',
-                '&:hover': { backgroundColor: 'darkred' }
-              }}
-            >
-              <UploadIcon />
-            </IconButton>
-          </Tooltip>
+
           <Tooltip title="Download Employee List">
             <IconButton
               style={{ marginLeft: '8px' }}
+              onClick={handleDownload}
               sx={{
                 backgroundColor: 'green',
                 color: 'white',
-                '&:hover': { backgroundColor: 'darkred' }
+                '&:hover': { backgroundColor: 'darkgreen' },
               }}
             >
               <DownloadIcon />
@@ -294,14 +313,14 @@ const TeamMembersTable = () => {
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 'bold' }}>EmpID</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Grade</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Designation</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Project</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Skills</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Location</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>ContactNo</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Training Title</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Training Type</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Mode</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Planned Date</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Start Date</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>End Date</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Status</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -310,32 +329,34 @@ const TeamMembersTable = () => {
               ? filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : filteredData
             ).map((row) => (
-              <TableRow key={row.EmpId}>
-                <TableCell component="th" scope="row">{row.EmpId}</TableCell>
+              <TableRow key={row.id}>
                 <TableCell>{row.Name}</TableCell>
-                <TableCell>{row.Grade}</TableCell>
-                <TableCell>{row.Designation}</TableCell>
-                <TableCell>{row.Project}</TableCell>
-                <TableCell>{row.Skills}</TableCell>
-                <TableCell>{row.Location}</TableCell>
-                <TableCell>{row.ContactNo}</TableCell>
+                <TableCell>{row.TrainingTitle}</TableCell>
+                <TableCell>{row.TrainingType}</TableCell>
+                <TableCell>{row.Mode}</TableCell>
+                <TableCell>{row.PlannedDate}</TableCell>
+                <TableCell>{row.StartDate}</TableCell>
+                <TableCell>{row.EndDate}</TableCell>
+                <TableCell>{row.Status}</TableCell>
                 <TableCell>
-                  <Tooltip title="Edit Employee List">
-                    <IconButton
-                      sx={{ color: 'blue', '&:hover': { color: 'darkblue' } }}
-                      onClick={() => handleEdit(row)}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Delete Employee">
-                    <IconButton
-                      sx={{ color: 'red', '&:hover': { color: 'darkred' } }}
-                      onClick={() => handleDelete(row.id)}
-                    >
-                      <HighlightOffOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Tooltip title="Edit Employee List">
+                      <IconButton
+                        sx={{ color: 'blue', '&:hover': { color: 'darkblue' } }}
+                        onClick={() => handleEdit(row)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Copy Employee Details">
+                      <IconButton
+                        sx={{ color: 'green', '&:hover': { color: 'darkgreen' } }}
+                        onClick={() => handleCopy(row)}
+                      >
+                        <ContentCopyIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}
@@ -369,23 +390,28 @@ const TeamMembersTable = () => {
           </TableFooter>
         </Table>
       </TableContainer>
-
       {editData && (
         <EditModal
           open={editModalOpen}
           handleClose={handleCloseModal}
-          employee={editData}
+          employeeData={editData}
           handleSave={handleSave}
         />
       )}
-
       <AddModal
         open={addModalOpen}
         handleClose={handleAddClose}
         handleSave={handleAddSave}
       />
+      <Snackbar
+        open={copySuccess}
+        autoHideDuration={3000}
+        onClose={() => setCopySuccess(false)}
+      >
+        <Alert onClose={() => setCopySuccess(false)} severity="success" sx={{ width: '100%' }}>
+          {copyMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
-
-export default TeamMembersTable;
