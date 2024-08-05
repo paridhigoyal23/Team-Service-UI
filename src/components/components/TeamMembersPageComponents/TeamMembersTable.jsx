@@ -33,6 +33,7 @@ import AddModal from './AddModal';
 import UploadModal from './UploadModal';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { DoorBack, HighlightOffOutlined } from '@mui/icons-material';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -145,7 +146,22 @@ const TeamMembersTable = () => {
   const [uploadModalOpen, setUploadModalOpen] = useState(false); // New state for upload modal
   const [editData, setEditData] = useState({});
 
+  // Commented this because it doesn't have any function to call again to relode data automatically in table.
+  // useEffect(() => {
+  //   axios.get('http://localhost:8000/employeesData')
+  //     .then(response => {
+  //       setEmployeesData(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching data: ', error);
+  //     });
+  // }, []);
+
   useEffect(() => {
+    fetchEmployeesData();
+  }, []);
+
+  const fetchEmployeesData = () => {
     axios.get('http://localhost:8000/employeesData')
       .then(response => {
         setEmployeesData(response.data);
@@ -153,7 +169,26 @@ const TeamMembersTable = () => {
       .catch(error => {
         console.error('Error fetching data: ', error);
       });
-  }, []);
+  };
+
+  // Delete Data from db.json 
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this employee?');
+    if (confirmDelete) {
+      axios.delete(`http://localhost:8000/employeesData/${id}`)
+        .then(response => {
+          console.log(`Employee with EmpId: ${id} deleted.`);
+          // Refresh the data after deletion
+          fetchEmployeesData();
+        })
+        .catch(error => {
+          console.error('Error deleting employee: ', error);
+        });
+    }
+    else{
+      console.log(`The Deletion of employee with ID: ${id} was cancelled`);
+    }
+  };
 
   const handleEdit = (employee) => {
     setEditData(employee);
@@ -357,6 +392,14 @@ const TeamMembersTable = () => {
                         <EditIcon />
                       </IconButton>
                     </Tooltip>
+                    <Tooltip title="Delete Employee">
+                    <IconButton
+                      sx={{ color: 'red', '&:hover': { color: 'darkred' } }}
+                      onClick={() => handleDelete(row.id)}
+                    >
+                      <HighlightOffOutlined />
+                    </IconButton>
+                  </Tooltip>
                   </Box>
                 </TableCell>
               </TableRow>

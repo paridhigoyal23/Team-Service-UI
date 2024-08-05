@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -32,7 +32,6 @@ import { saveAs } from 'file-saver';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
-// Styling for the search bar in the table header
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -162,23 +161,6 @@ export default function TrainingTable() {
   const handleEdit = (employeeData) => {
     setEditData(employeeData);
     setEditModalOpen(true);
-  };
-
-  const handleDelete = async (empId) => {
-    try {
-      // Send a DELETE request to remove the employee data with the specified ID
-      const response = await axios.delete(`http://localhost:8000/employeesData/${empId}`);
-  
-      if (response.status === 200) {
-        // Update the local state to remove the deleted employee from the list
-        setEmployeesData(employeesData.filter((employee) => employee.EmpId !== empId));
-        console.log(`Employee with ID ${empId} deleted successfully`);
-      } else {
-        console.error('Failed to delete employee:', response);
-      }
-    } catch (error) {
-      console.error('Error deleting employee:', error);
-    }
   };
 
   const handleSave = (updatedEmployee) => {
