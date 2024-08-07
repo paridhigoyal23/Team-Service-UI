@@ -26,20 +26,20 @@ export const options = {
     groupWidth: "60%", // Adjust the width of bars
   },
   chartArea: {
-    left: '15%', // Add left padding
+    left: '10%', // Add left padding
     top: '20%',  // Add top padding
-    width: '70%', // Adjust chart area width
+    width: '80%', // Adjust chart area width
     height: '60%', // Adjust chart area height
   },
 };
 
 export function BarGraph() {
   return (
-    <div className="bar-graph-container drop-shadow-xl">
+    <div className="bar-graph-container">
       <Chart
         chartType="ColumnChart" // Use ColumnChart for vertical bars
         width="130%"
-        height="400px"
+        height="350px"
         data={data}
         options={options}
       />

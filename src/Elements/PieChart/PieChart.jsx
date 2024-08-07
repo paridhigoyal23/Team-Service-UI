@@ -27,23 +27,23 @@ export const options = {
     fontSize: 18, // Increase pie slice text font size
   },
   chartArea: {
-    left: 80, // Add left padding
-    top: 100, // Add top padding
-    right: 50,  
+    left: 50, // Add left padding
+    top: 50, // Add top padding
+    right: 20,  
     width: '100%', // Adjust chart area width
-    height: '65%', // Adjust chart area height
+    height: '95%', // Adjust chart area height
   },
 };
 
 const PieChart = () => {
   return (
-    <div className="pie-chart-container drop-shadow-xl">
+    <div className="pie-chart-container">
       <Chart
         chartType="PieChart"
         data={data}
         options={options}
         width="130%"
-        height="400px"
+        height="350px"
       />
     </div>
   );

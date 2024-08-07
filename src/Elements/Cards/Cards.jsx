@@ -21,8 +21,8 @@ const Cards = () => {
       axios
       .get('http://localhost:8000/employeesData')
       .then((response) => {
-        setTeamMemberCount(response.data.length);
         setEmployeesData(response.data);
+        setTeamMemberCount(response.data.length);
         calculateUniqueProjects(response.data);
       })
       .catch((error) => {
@@ -39,7 +39,6 @@ const Cards = () => {
 
 
   const getCardStyle = () => {
-
 
     if (isSmallScreen) {
       return {

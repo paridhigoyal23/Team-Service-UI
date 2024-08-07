@@ -1,7 +1,9 @@
 .bar-graph-container {
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    box-shadow: 5px 5px 22px 8px rgba(0, 0, 0, 0.1);
     padding: 2rem;
     max-width: 100%; /* Ensure the container doesn't exceed the viewport width */
+    border-radius: 0.5rem;
+    /* background-color: blue; */
   }
   
   @media (min-width: 1024px) {
@@ -23,7 +25,7 @@
     }
   
     .bar-graph-container .google-visualization-chart {
-      font-size: 1rem; /* Slightly smaller font size */
+      font-size: 1rem; /*Slightly smaller font size */
     }
   }
   

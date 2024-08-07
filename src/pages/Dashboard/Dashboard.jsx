@@ -9,7 +9,7 @@ const Dashboard = () => {
       <div>
         <Cards />
       </div>
-      <div className="flex justify-around">
+      <div className="flex justify-around py-8">
         <div>
           <BarGraph />
         </div>
