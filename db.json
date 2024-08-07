@@ -1,4 +1,14 @@
 {
+  "login": [
+    {
+      "EmpId": "EMP1006",
+      "email": "admin@gmail.com",
+      "password": "Work@4321",
+      "role": "admin",
+      "Name": "Digvijay",
+      "id": "3"
+    }
+  ],
   "employeesData": [
     {
       "EmpId": "123456",

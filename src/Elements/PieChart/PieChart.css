@@ -1,0 +1,22 @@
+.pie-chart-container {
+  box-shadow: 5px 5px 22px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  max-width: 100%;
+  border-radius: 0.5rem;
+  /* background-color: red; */
+
+  /* Adjust the responsiveness */
+  @media (max-width: 1024px) {
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  @media (max-width: 576px) {
+    padding: 0.5rem;
+  }
+}
+
+  

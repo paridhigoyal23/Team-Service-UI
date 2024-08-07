@@ -1,0 +1,41 @@
+.bar-graph-container {
+  box-shadow: 5px 5px 22px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 100%; /* Ensure the container doesn't exceed the viewport width */
+  border-radius: 0.5rem;
+  /* background-color: blue; */
+}
+
+@media (min-width: 1024px) {
+  /* Laptop screens and larger */
+  .bar-graph-container {
+    padding: 1.5rem;
+    max-width: 800px; /* Set a maximum width for larger screens */
+  }
+
+  .bar-graph-container .google-visualization-chart {
+    font-size: 1.125rem; /* Adjust font size for larger screens */
+  }
+}
+
+@media (max-width: 1024px) {
+  /* Smaller screens, tablets */
+  .bar-graph-container {
+    padding: 1rem;
+  }
+
+  .bar-graph-container .google-visualization-chart {
+    font-size: 1rem; /*Slightly smaller font size */
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile screens */
+  .bar-graph-container {
+    padding: 0.5rem;
+  }
+
+  .bar-graph-container .google-visualization-chart {
+    font-size: 0.875rem; /* Smaller font size for mobiles */
+  }
+}
