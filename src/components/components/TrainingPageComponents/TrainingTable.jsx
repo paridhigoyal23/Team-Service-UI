@@ -156,6 +156,7 @@ export default function TrainingTable() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [copyMessage, setCopyMessage] = useState("");
   const {userRole} = useAuth();
+
   useEffect(() => {
     axios
       .get("http://localhost:8000/trainingData")
@@ -264,8 +265,16 @@ export default function TrainingTable() {
   };
 
   const filteredData = trainingData.filter((row) =>
-    row.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    (row.Name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (row.TrainingTitle || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (row.TrainingType || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (row.Mode || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (row.PlannedDate || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (row.StartDate || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (row.EndDate || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (row.Status || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
+  
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredData.length) : 0;
@@ -410,7 +419,8 @@ export default function TrainingTable() {
           </TableFooter>
         </Table>
       </TableContainer>
-      {editData && (
+      {/* Edit Modal */}
+      {editModalOpen && (
         <EditModal
           open={editModalOpen}
           handleClose={handleCloseModal}
@@ -418,11 +428,13 @@ export default function TrainingTable() {
           handleSave={handleSave}
         />
       )}
+      {/* add modal */}
       <AddModal
         open={addModalOpen}
         handleClose={handleAddClose}
         handleSave={handleAddSave}
       />
+
       <Snackbar
         open={copySuccess}
         autoHideDuration={3000}
