@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -32,6 +31,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useAuth } from "../../../context/AuthContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -110,14 +110,22 @@ function TablePaginationActions(props) {
         disabled={page === 0}
         aria-label="previous page"
       >
-        {theme.direction === "rtl" ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
-        {theme.direction === "rtl" ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
@@ -147,7 +155,7 @@ export default function TrainingTable() {
   const [editData, setEditData] = useState({});
   const [copySuccess, setCopySuccess] = useState(false);
   const [copyMessage, setCopyMessage] = useState("");
-
+  const {userRole} = useAuth();
   useEffect(() => {
     axios
       .get("http://localhost:8000/trainingData")
@@ -166,7 +174,10 @@ export default function TrainingTable() {
 
   const handleSave = (updatedEmployee) => {
     axios
-      .put(`http://localhost:8000/trainingData/${updatedEmployee.id}`, updatedEmployee)
+      .put(
+        `http://localhost:8000/trainingData/${updatedEmployee.id}`,
+        updatedEmployee
+      )
       .then((response) => {
         setTrainingData((prevData) =>
           prevData.map((emp) =>
@@ -279,20 +290,23 @@ export default function TrainingTable() {
           </Search>
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Tooltip title="Add Employee">
-              <IconButton
-                onClick={handleAdd}
-                sx={{
-                  backgroundColor: "blue",
-                  color: "white",
-                  "&:hover": { backgroundColor: "darkblue" },
-                  marginRight: "8px", // Space between Add and Download
-                }}
-              >
-                <AddIcon />
-              </IconButton>
-            </Tooltip>
-
+            {(userRole === "admin" || userRole === "manager") && (
+              <>
+                <Tooltip title="Add Employee">
+                  <IconButton
+                    onClick={handleAdd}
+                    sx={{
+                      backgroundColor: "blue",
+                      color: "white",
+                      "&:hover": { backgroundColor: "darkblue" },
+                      marginRight: "8px", // Space between Add and Download
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
+            )}
             <Tooltip title="Download Employee List">
               <IconButton
                 onClick={handleDownload}

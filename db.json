@@ -1,12 +1,76 @@
 {
-  "login": [
+  "users": [
+    {
+      "EmpId": "EMP1000",
+      "email": "manager@gmail.com",
+      "password": "Work@4321",
+      "role": "manager",
+      "Name": "xyz",
+      "id": 2
+    },
     {
       "EmpId": "EMP1006",
       "email": "admin@gmail.com",
       "password": "Work@4321",
       "role": "admin",
       "Name": "Digvijay",
-      "id": "3"
+      "id": 3
+    },
+    {
+      "email": "123456@test.com",
+      "password": "123456@1234",
+      "role": "viewer",
+      "EmpId": "123456",
+      "Name": "Pernika",
+      "id": 4
+    },
+    {
+      "email": "123457@test.com",
+      "password": "123457@1234",
+      "role": "viewer",
+      "EmpId": "123457",
+      "Name": "Yash",
+      "id": 5
+    },
+    {
+      "email": "123459@test.com",
+      "password": "123459@1234",
+      "role": "viewer",
+      "EmpId": "123459",
+      "Name": "Megha",
+      "id": 6
+    },
+    {
+      "email": "123452@test.com",
+      "password": "123452@1234",
+      "role": "viewer",
+      "EmpId": "123452",
+      "Name": "Vishal",
+      "id": 7
+    },
+    {
+      "email": "123451@test.com",
+      "password": "123451@1234",
+      "role": "viewer",
+      "EmpId": "123451",
+      "Name": "Nidhi",
+      "id": 8
+    },
+    {
+      "email": "123453@test.com",
+      "password": "123453@1234",
+      "role": "viewer",
+      "EmpId": "123453",
+      "Name": "Ram",
+      "id": 9
+    },
+    {
+      "email": "123454@test.com",
+      "password": "123454@1234",
+      "role": "viewer",
+      "EmpId": "123454",
+      "Name": "Rohan",
+      "id": 10
     }
   ],
   "employeesData": [
