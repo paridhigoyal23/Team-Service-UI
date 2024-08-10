@@ -1,75 +1,75 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import TableHead from '@mui/material/TableHead';
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
-import UploadIcon from '@mui/icons-material/Upload';
-import DownloadIcon from '@mui/icons-material/Download';
-import SearchIcon from '@mui/icons-material/Search';
-import { Tooltip } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import InputBase from '@mui/material/InputBase';
-import EditModal from './EditModal';
-import AddModal from './AddModal';
-import UploadModal from './UploadModal';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import PropTypes from "prop-types";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableFooter from "@mui/material/TableFooter";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import TableHead from "@mui/material/TableHead";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
+import UploadIcon from "@mui/icons-material/Upload";
+import DownloadIcon from "@mui/icons-material/Download";
+import SearchIcon from "@mui/icons-material/Search";
+import { Tooltip } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import { styled, alpha } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import InputBase from "@mui/material/InputBase";
+import EditModal from "./EditModal";
+import AddModal from "./AddModal";
+import UploadModal from "./UploadModal";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: theme.palette.grey[200],
-  '&:hover': {
+  "&:hover": {
     backgroundColor: theme.palette.grey[300],
   },
   marginRight: theme.spacing(2),
   marginLeft: theme.spacing(2),
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(2),
-    width: 'auto',
+    width: "auto",
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   color: theme.palette.text.primary,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
+  color: "inherit",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
 }));
@@ -101,28 +101,36 @@ function TablePaginationActions(props) {
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </Box>
   );
@@ -137,7 +145,7 @@ TablePaginationActions.propTypes = {
 
 const TeamMembersTable = () => {
   const [employeesData, setEmployeesData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -146,12 +154,13 @@ const TeamMembersTable = () => {
   const [editData, setEditData] = useState({});
 
   useEffect(() => {
-    axios.get('http://localhost:8000/employeesData')
-      .then(response => {
+    axios
+      .get("http://localhost:8000/employeesData")
+      .then((response) => {
         setEmployeesData(response.data);
       })
-      .catch(error => {
-        console.error('Error fetching data: ', error);
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
       });
   }, []);
 
@@ -161,19 +170,25 @@ const TeamMembersTable = () => {
   };
 
   const handleSave = (updatedEmployee) => {
-    axios.put(`http://localhost:8000/employeesData/${updatedEmployee.id}`, updatedEmployee)
-      .then(response => {
+    axios
+      .put(
+        `http://localhost:8000/employeesData/${updatedEmployee.id}`,
+        updatedEmployee
+      )
+      .then((response) => {
         setEmployeesData((prevData) =>
-          prevData.map(emp => emp.id === updatedEmployee.id ? response.data : emp)
+          prevData.map((emp) =>
+            emp.id === updatedEmployee.id ? response.data : emp
+          )
         );
         setEditModalOpen(false);
       })
-      .catch(error => {
-        console.error('Error updating data: ', error);
-        alert('Failed to update employee. Please try again.');
+      .catch((error) => {
+        console.error("Error updating data: ", error);
+        alert("Failed to update employee. Please try again.");
       });
   };
-  
+
   const handleCloseModal = () => {
     setEditModalOpen(false);
   };
@@ -183,14 +198,15 @@ const TeamMembersTable = () => {
   };
 
   const handleAddSave = (newEmployee) => {
-    axios.post('http://localhost:8000/employeesData', newEmployee)
-      .then(response => {
+    axios
+      .post("http://localhost:8000/employeesData", newEmployee)
+      .then((response) => {
         setEmployeesData((prevData) => [...prevData, response.data]);
         setAddModalOpen(false);
       })
-      .catch(error => {
-        console.error('Error adding data: ', error);
-        alert('Failed to add employee. Please try again.');
+      .catch((error) => {
+        console.error("Error adding data: ", error);
+        alert("Failed to add employee. Please try again.");
       });
   };
 
@@ -203,14 +219,15 @@ const TeamMembersTable = () => {
   };
 
   const handleUploadSave = (newData) => {
-    newData.forEach(employee => {
-      axios.post('http://localhost:8000/employeesData', employee)
-        .then(response => {
-          setEmployeesData(prevData => [...prevData, response.data]);
+    newData.forEach((employee) => {
+      axios
+        .post("http://localhost:8000/employeesData", employee)
+        .then((response) => {
+          setEmployeesData((prevData) => [...prevData, response.data]);
         })
-        .catch(error => {
-          console.error('Error adding data: ', error);
-          alert('Failed to add employee. Please try again.');
+        .catch((error) => {
+          console.error("Error adding data: ", error);
+          alert("Failed to add employee. Please try again.");
         });
     });
     setUploadModalOpen(false);
@@ -227,23 +244,28 @@ const TeamMembersTable = () => {
   const handleDownload = () => {
     const worksheet = XLSX.utils.json_to_sheet(employeesData);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Employees');
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(data, 'employees_list.xlsx');
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Employees");
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(data, "employees_list.xlsx");
   };
 
-  const filteredData = employeesData.filter((row) =>
-    row.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.Grade.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.Designation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.Project.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.Skills.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.Location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.ContactNo.toLowerCase().includes(searchTerm.toLowerCase()) 
+  const filteredData = employeesData.filter(
+    (row) =>
+      row.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.Grade.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.Designation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.Project.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.Skills.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.Location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      row.ContactNo.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredData.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredData.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -256,65 +278,75 @@ const TeamMembersTable = () => {
 
   return (
     <Box sx={{ paddingRight: 10, paddingLeft: 10 }}>
-      <AppBar position='static' sx={{ backgroundColor: 'var(--lt-color-gray-400)' }}>
-        <Toolbar display='flex' justifycontent='flex-end'>
-          <Typography
-            variant='inherit'
-            noWrap
-            sx={{ color: 'black', display: { xs: 'none', sm: 'block' } }}
-          >
-            Employee
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search', style: { color: 'black' } }}
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          </Search>
-          <Tooltip title="Add Employee">
-            <IconButton
-              onClick={handleAdd}
-              style={{ marginLeft: '575px' }}
-              sx={{
-                backgroundColor: 'blue',
-                color: 'white',
-                '&:hover': { backgroundColor: 'darkblue' }
-              }}
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: "var(--lt-color-gray-400)" }}
+      >
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography
+              variant="inherit"
+              noWrap
+              sx={{ color: "black", display: { xs: "none", sm: "block" } }}
             >
-              <AddIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Upload Employee List">
-            <IconButton
-              onClick={handleUploadOpen}
-              style={{ marginLeft: '8px' }}
-              sx={{
-                backgroundColor: 'red',
-                color: 'white',
-                '&:hover': { backgroundColor: 'darkred' }
-              }}
-            >
-              <UploadIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Download Employee List">
-            <IconButton
-              onClick={handleDownload}
-              style={{ marginLeft: '8px' }}
-              sx={{
-                backgroundColor: 'green',
-                color: 'white',
-                '&:hover': { backgroundColor: 'darkgreen' }
-              }}
-            >
-              <DownloadIcon />
-            </IconButton>
-          </Tooltip>
+              Employee
+            </Typography>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{
+                  "aria-label": "search",
+                  style: { color: "black" },
+                }}
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+            </Search>
+          </Box>
+
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Tooltip title="Add Employee">
+              <IconButton
+                onClick={handleAdd}
+                sx={{
+                  backgroundColor: "blue",
+                  color: "white",
+                  "&:hover": { backgroundColor: "darkblue" },
+                  marginRight: "8px", // Space between Add and Upload
+                }}
+              >
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Upload Employee List">
+              <IconButton
+                onClick={handleUploadOpen}
+                sx={{
+                  backgroundColor: "red",
+                  color: "white",
+                  "&:hover": { backgroundColor: "darkred" },
+                  marginRight: "8px", // Space between Upload and Download
+                }}
+              >
+                <UploadIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Download Employee List">
+              <IconButton
+                onClick={handleDownload}
+                sx={{
+                  backgroundColor: "green",
+                  color: "white",
+                  "&:hover": { backgroundColor: "darkgreen" },
+                }}
+              >
+                <DownloadIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Toolbar>
       </AppBar>
 
@@ -322,24 +354,29 @@ const TeamMembersTable = () => {
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 'bold' }}>EmpID</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Grade</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Designation</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Project</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Skills</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Location</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>ContactNo</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Actions</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>EmpID</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Name</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Grade</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Designation</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Project</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Skills</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Location</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>ContactNo</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {(rowsPerPage > 0
-              ? filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              ? filteredData.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
               : filteredData
             ).map((row) => (
               <TableRow key={row.EmpId}>
-                <TableCell component="th" scope="row">{row.EmpId}</TableCell>
+                <TableCell component="th" scope="row">
+                  {row.EmpId}
+                </TableCell>
                 <TableCell>{row.Name}</TableCell>
                 <TableCell>{row.Grade}</TableCell>
                 <TableCell>{row.Designation}</TableCell>
@@ -348,10 +385,10 @@ const TeamMembersTable = () => {
                 <TableCell>{row.Location}</TableCell>
                 <TableCell>{row.ContactNo}</TableCell>
                 <TableCell>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Tooltip title="Edit Employee List">
                       <IconButton
-                        sx={{ color: 'blue', '&:hover': { color: 'darkblue' } }}
+                        sx={{ color: "blue", "&:hover": { color: "darkblue" } }}
                         onClick={() => handleEdit(row)}
                       >
                         <EditIcon />
@@ -370,7 +407,7 @@ const TeamMembersTable = () => {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={9}
                 count={filteredData.length}
                 rowsPerPage={rowsPerPage}
@@ -378,7 +415,7 @@ const TeamMembersTable = () => {
                 slotProps={{
                   select: {
                     inputProps: {
-                      'aria-label': 'rows per page',
+                      "aria-label": "rows per page",
                     },
                     native: true,
                   },
@@ -414,6 +451,6 @@ const TeamMembersTable = () => {
       />
     </Box>
   );
-}
+};
 
 export default TeamMembersTable;
