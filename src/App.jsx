@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
-
 import './App.css';
 
 // Lazy load the modules
@@ -14,29 +13,26 @@ const RootLayout = lazy(() => import('./pages/Root/Root'));
 
 const App = () => {
   return (
-    
-      <Suspense fallback={<div className='text-2xl text-center'>Loading...</div>}>
-        
-          <Routes>
-            <Route path="/Team-Service-UI/login" element={<Login />} />
-            <Route
-              path="/Team-Service-UI/"
-              element={
-                <ProtectedRoute>
-                  <RootLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="" element={<Dashboard />} />
-              <Route path="teammembers" element={<TeamMembers />} />
-              <Route path="wfo" element={<WFO />} />
-              <Route path="training" element={<Training />} />
-            </Route>
-          </Routes>
-        
-      </Suspense>
-    
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/Team-Service-UI/login" element={<Login />} />
+        <Route
+          path="/Team-Service-UI/*"
+          element={
+            <ProtectedRoute>
+              <RootLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="" element={<Dashboard />} />
+          <Route path="teammembers" element={<TeamMembers />} />
+          <Route path="wfo" element={<WFO />} />
+          <Route path="training" element={<Training />} />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
 
 export default App;
+

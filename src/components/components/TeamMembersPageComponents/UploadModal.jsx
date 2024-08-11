@@ -76,4 +76,3 @@ UploadModal.propTypes = {
 };
 
 export default UploadModal;
-

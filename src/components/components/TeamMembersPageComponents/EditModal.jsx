@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, TextField, Button, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
@@ -135,8 +136,8 @@ const EditModal = ({ open, handleClose, handleSave, employee }) => {
 EditModal.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  employee: PropTypes.object.isRequired,
   handleSave: PropTypes.func.isRequired,
+  employee: PropTypes.object.isRequired,
 };
 
 export default EditModal;
