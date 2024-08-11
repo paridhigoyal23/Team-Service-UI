@@ -52,7 +52,7 @@ const Cards = () => {
       };
     } else if (isLargeScreen) {
       return {
-        width: "22vw",
+        width: "20vw",
         height: "200px",
       };
     }
@@ -71,8 +71,8 @@ const Cards = () => {
       };
     } else if (isLargeScreen) {
       return {
-        titleFontSize: "2rem",
-        contentFontSize: "1.5rem",
+        titleFontSize: "2.5rem",
+        contentFontSize: "1.8rem",
       };
     }
   };
@@ -82,7 +82,7 @@ const Cards = () => {
 
   return (
     <div className="px-4 py-4 mx-6 my-10 flex justify-center">
-      <div className="flex flex-wrap gap-4 text-3xl justify-center">
+      <div className="flex flex-wrap gap-10 text-3xl justify-center">
         <Card sx={{ ...cardStyle, backgroundColor: "#3DB5A4", borderRadius: "20px", boxShadow: "1px 1px 10px 0.00001px gray", color: "white" }}>
           <div className="flex flex-col gap-3 items-center justify-center h-full">
             <div style={{ fontSize: textStyle.titleFontSize }}>Team</div>

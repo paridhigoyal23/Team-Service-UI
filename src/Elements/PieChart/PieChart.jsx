@@ -42,7 +42,7 @@ const PieChart = () => {
         chartType="PieChart"
         data={data}
         options={options}
-        width="130%"
+        width="120%"
         height="350px"
       />
     </div>

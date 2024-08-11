@@ -2,8 +2,8 @@
   "login": [
     {
       "EmpId": "EMP1006",
-      "email": "admin@gmail.com",
-      "password": "Work@4321",
+      "email": "a",
+      "password": "a",
       "role": "admin",
       "Name": "Digvijay",
       "id": "3"

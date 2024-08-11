@@ -15,7 +15,7 @@ const RootLayout = lazy(() => import('./pages/Root/Root'));
 const App = () => {
   return (
     
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div className='text-2xl text-center'>Loading...</div>}>
         
           <Routes>
             <Route path="/Team-Service-UI/login" element={<Login />} />

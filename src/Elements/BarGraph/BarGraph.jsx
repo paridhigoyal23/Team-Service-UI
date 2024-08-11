@@ -23,13 +23,13 @@ export const options = {
     },
   },
   bar: {
-    groupWidth: "60%", // Adjust the width of bars
+    groupWidth: "80%", // Adjust the width of bars
   },
   chartArea: {
-    left: '10%', // Add left padding
-    top: '20%',  // Add top padding
-    width: '80%', // Adjust chart area width
-    height: '60%', // Adjust chart area height
+    left: '5%', // Reduce left padding
+    top: '20%',
+    width: '90%', // Increase chart area width
+    height: '60%',
   },
 };
 
@@ -38,7 +38,7 @@ export function BarGraph() {
     <div className="bar-graph-container">
       <Chart
         chartType="ColumnChart" // Use ColumnChart for vertical bars
-        width="130%"
+        width="100%"  // Set to 100% to fill the container
         height="350px"
         data={data}
         options={options}
