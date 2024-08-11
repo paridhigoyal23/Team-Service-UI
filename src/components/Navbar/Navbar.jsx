@@ -12,7 +12,7 @@ const Navbar = () => {
         <div className='bg-gradient-to-r from-purple-700 to-orange-500 flex items-center justify-between py-6 px-8 text-xl text-white'>
           <div className="font-bold tracking-wides pl-10">Team Service</div>
           <div className='flex gap-5'>
-            <ul className='flex gap-5 text-xl items-center'>
+            <ul className='flex gap-8 text-xl items-center'>
               <li className={styles.li}><NavLink to="" className={({ isActive }) => isActive ? styles.active : undefined} end>Dashboard</NavLink></li>
               <li className={styles.li}><NavLink to="/Team-Service-UI/teammembers" className={({ isActive }) => isActive ? styles.active : undefined}>Team Members</NavLink></li>
               <li className={styles.li}><NavLink to="/Team-Service-UI/wfo" className={({ isActive }) => isActive ? styles.active : undefined}>WFO/Leave</NavLink></li>
