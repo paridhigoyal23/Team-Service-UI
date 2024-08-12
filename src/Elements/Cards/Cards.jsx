@@ -246,11 +246,11 @@ const Cards = () => {
           }}
         >
           <div className="flex flex-col gap-3 items-center justify-center h-full">
-            <div style={{ fontSize: textStyle.titleFontSize }}>Team</div>
-            <div style={{ fontSize: textStyle.contentFontSize }}>
+            <div style={{ fontSize: '25px' }}>Team</div>
+            <div  style={{ fontSize: '22px' }}>
               {teamMemberCount}
             </div>
-            <div style={{ fontSize: textStyle.contentFontSize }}>Employee</div>
+            <div style={{ fontSize: '25px' }}>Employee</div>
           </div>
         </Card>
         <Card
@@ -263,11 +263,11 @@ const Cards = () => {
           }}
         >
           <div className="flex flex-col gap-3 items-center justify-center h-full">
-            <div style={{ fontSize: textStyle.titleFontSize }}>Team</div>
-            <div style={{ fontSize: textStyle.contentFontSize }}>
+            <div style={{ fontSize: '25px' }}>Team</div>
+            <div  style={{ fontSize: '22px' }}>
               {uniqueProjectCount}
             </div>
-            <div style={{ fontSize: textStyle.contentFontSize }}>Projects</div>
+            <div style={{ fontSize: '25px' }}>Projects</div>
           </div>
         </Card>
         <Card
@@ -280,11 +280,11 @@ const Cards = () => {
           }}
         >
           <div className="flex flex-col gap-3 items-center justify-center h-full">
-            <div style={{ fontSize: textStyle.titleFontSize }}>Today</div>
-            <div style={{ fontSize: textStyle.contentFontSize }}>
+            <div style={{ fontSize: '25px' }}>Today</div>
+            <div  style={{ fontSize: '22px' }}>
               0 / 0 / 0
             </div>
-            <div style={{ fontSize: textStyle.contentFontSize }}>
+            <div style={{ fontSize: '25px' }}>
               WFO/WFH/Leave
             </div>
           </div>
@@ -299,11 +299,11 @@ const Cards = () => {
           }}
         >
           <div className="flex flex-col gap-3 items-center justify-center h-full">
-            <div style={{ fontSize: textStyle.titleFontSize }}>Training</div>
-            <div style={{ fontSize: textStyle.contentFontSize }}>
+            <div style={{ fontSize: '25px' }}>Training</div>
+            <div style={{ fontSize: '22px' }}>
               {trainingsToday} / {trainingsThisWeek}
             </div>
-            <div style={{ fontSize: textStyle.contentFontSize }}>
+            <div style={{ fontSize: '25px' }}>
               Today/Week
             </div>
           </div>

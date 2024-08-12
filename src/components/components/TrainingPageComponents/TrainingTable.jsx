@@ -155,7 +155,7 @@ export default function TrainingTable() {
   const [editData, setEditData] = useState({});
   const [copySuccess, setCopySuccess] = useState(false);
   const [copyMessage, setCopyMessage] = useState("");
-  const {userRole} = useAuth();
+  const { userRole, userEmpId, userName } = useAuth(); // Access user role, EmpId, and userName from context
 
   useEffect(() => {
     axios
@@ -264,17 +264,23 @@ export default function TrainingTable() {
     return new Date(dateString).toLocaleDateString();
   };
 
-  const filteredData = trainingData.filter((row) =>
-    (row.Name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (row.TrainingTitle || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (row.TrainingType || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (row.Mode || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (row.PlannedDate || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (row.StartDate || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (row.EndDate || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (row.Status || "").toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredData = trainingData.filter(
+    (row) =>
+      (row.Name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (row.TrainingTitle || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (row.TrainingType || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (row.Mode || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (row.PlannedDate || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (row.StartDate || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (row.EndDate || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (row.Status || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredData.length) : 0;
@@ -366,14 +372,23 @@ export default function TrainingTable() {
                 <TableCell>{row.Status}</TableCell>
                 <TableCell>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Tooltip title="Edit Employee List">
-                      <IconButton
-                        sx={{ color: "blue", "&:hover": { color: "darkblue" } }}
-                        onClick={() => handleEdit(row)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
+                    
+                      <Tooltip title="Edit Employee List">
+                        <IconButton
+                          sx={{
+                            color: "blue",
+                            "&:hover": { color: "darkblue" },
+                          }}
+                          onClick={() => handleEdit(row)}
+                          disabled={
+                            userRole === "viewer" &&
+                            !row.Name.includes(userName)
+                          }
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+                    
                     <Tooltip title="Copy Employee Details">
                       <IconButton
                         sx={{

@@ -6,7 +6,7 @@
       "password": "Work@4321",
       "role": "manager",
       "Name": "xyz",
-      "id": "2"
+      "id": 2
     },
     {
       "EmpId": "EMP1006",
@@ -14,7 +14,7 @@
       "password": "Work@4321",
       "role": "admin",
       "Name": "Digvijay",
-      "id": "3"
+      "id": 3
     },
     {
       "email": "123456@test.com",
@@ -22,7 +22,7 @@
       "role": "viewer",
       "EmpId": "123456",
       "Name": "Pernika",
-      "id": "4"
+      "id": 4
     },
     {
       "email": "123457@test.com",
@@ -30,7 +30,7 @@
       "role": "viewer",
       "EmpId": "123457",
       "Name": "Yash",
-      "id": "5"
+      "id": 5
     },
     {
       "email": "123459@test.com",
@@ -38,7 +38,7 @@
       "role": "viewer",
       "EmpId": "123459",
       "Name": "Megha",
-      "id": "6"
+      "id": 6
     },
     {
       "email": "123452@test.com",
@@ -46,7 +46,7 @@
       "role": "viewer",
       "EmpId": "123452",
       "Name": "Vishal",
-      "id": "7"
+      "id": 7
     },
     {
       "email": "123451@test.com",
@@ -54,7 +54,7 @@
       "role": "viewer",
       "EmpId": "123451",
       "Name": "Nidhi",
-      "id": "8"
+      "id": 8
     },
     {
       "email": "123453@test.com",
@@ -62,7 +62,7 @@
       "role": "viewer",
       "EmpId": "123453",
       "Name": "Ram",
-      "id": "9"
+      "id": 9
     },
     {
       "email": "123454@test.com",
@@ -70,7 +70,7 @@
       "role": "viewer",
       "EmpId": "123454",
       "Name": "Rohan",
-      "id": "10"
+      "id": 10
     }
   ],
   "employeesData": [
@@ -83,7 +83,7 @@
       "Skills": "Java",
       "Location": "Noida",
       "ContactNo": "75754-86584",
-      "id": "1",
+      "id": 1,
       "Icons": ""
     },
     {
@@ -95,7 +95,7 @@
       "Skills": "Java",
       "Location": "Noida",
       "ContactNo": "75785-78686",
-      "id": "2"
+      "id": 2
     },
     {
       "EmpId": 123459,
@@ -106,7 +106,7 @@
       "Skills": "Angular Js",
       "Location": "Noida",
       "ContactNo": "73683-83273",
-      "id": "3"
+      "id": 3
     },
     {
       "EmpId": 123452,
@@ -117,7 +117,7 @@
       "Skills": "React Js",
       "Location": "Noida",
       "ContactNo": "73862-84687",
-      "id": "4"
+      "id": 4
     },
     {
       "EmpId": 123451,
@@ -128,7 +128,7 @@
       "Skills": "Angular Js",
       "Location": "Noida",
       "ContactNo": "75736-48667",
-      "id": "5"
+      "id": 5
     },
     {
       "EmpId": 123453,
@@ -139,7 +139,7 @@
       "Skills": "NextJs",
       "Location": "Bangalore",
       "ContactNo": "73547-76386",
-      "id": "6"
+      "id": 6
     },
     {
       "EmpId": 123454,
@@ -150,7 +150,7 @@
       "Skills": "Angular Js",
       "Location": "Noida",
       "ContactNo": "73562-73682",
-      "id": "7"
+      "id": 7
     }
   ],
   "trainingData": [
@@ -164,7 +164,7 @@
       "Name": "Pernika(123456)",
       "Status": "In Progress",
       "Mode": "offline",
-      "id": "1"
+      "id": 1
     },
     {
       "TrainingTitle": "Angular Js",
@@ -176,7 +176,7 @@
       "Name": "Yash(123457)",
       "Status": "In Progress",
       "Mode": "offline",
-      "id": "2"
+      "id": 2
     },
     {
       "TrainingTitle": "Angular Js",
@@ -188,7 +188,7 @@
       "Name": "Megha(123459)",
       "Status": "In Progress",
       "Mode": "offline",
-      "id": "3"
+      "id": 3
     }
   ]
 }
