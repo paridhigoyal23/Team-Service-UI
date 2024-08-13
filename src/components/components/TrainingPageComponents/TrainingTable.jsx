@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -242,11 +243,10 @@ export default function TrainingTable() {
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(blob, "training_data.xlsx");
   };
-
   const handleCopy = (row) => {
     const rowData = `
       Name: ${row.Name}
-      Training Title: ${row.TrainingTitle}
+      Training Titles: ${row.TrainingTitle.split(",").join(", ")}
       Training Type: ${row.TrainingType}
       Mode: ${row.Mode}
       Planned Date: ${new Date(row.PlannedDate).toLocaleDateString()}
@@ -363,7 +363,13 @@ export default function TrainingTable() {
             ).map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.Name}</TableCell>
-                <TableCell>{row.TrainingTitle}</TableCell>
+                {/* <TableCell>{row.TrainingTitle}</TableCell> */}
+                <TableCell>
+                  {row.TrainingTitle.split(",").map((title, index) => (
+                    <div key={index}>{title.trim()}</div>
+                  ))}
+                </TableCell>
+
                 <TableCell>{row.TrainingType}</TableCell>
                 <TableCell>{row.Mode}</TableCell>
                 <TableCell>{formatDate(row.PlannedDate)}</TableCell>
@@ -372,23 +378,21 @@ export default function TrainingTable() {
                 <TableCell>{row.Status}</TableCell>
                 <TableCell>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    
-                      <Tooltip title="Edit Employee List">
-                        <IconButton
-                          sx={{
-                            color: "blue",
-                            "&:hover": { color: "darkblue" },
-                          }}
-                          onClick={() => handleEdit(row)}
-                          disabled={
-                            userRole === "viewer" &&
-                            !row.Name.includes(userName)
-                          }
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                    
+                    <Tooltip title="Edit Employee List">
+                      <IconButton
+                        sx={{
+                          color: "blue",
+                          "&:hover": { color: "darkblue" },
+                        }}
+                        onClick={() => handleEdit(row)}
+                        disabled={
+                          userRole === "viewer" && !row.Name.includes(userName)
+                        }
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+
                     <Tooltip title="Copy Employee Details">
                       <IconButton
                         sx={{
