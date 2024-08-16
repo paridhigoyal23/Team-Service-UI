@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
@@ -272,116 +271,144 @@ function CalendarTable() {
                 type="month"
                 id="monthSelector"
                 name="monthSelector"
-                className="border-spacing-4 border-2 p-1 border-gray-400 rounded-md"
+                className="border-spacing-4 border-2 border-gray-500 rounded-md p-1 text-lg"
+                value={selectedMonth.toISOString().slice(0, 7)}
                 onChange={handleMonthChange}
-                value={`${selectedMonth.getFullYear()}-${String(
-                  selectedMonth.getMonth() + 1
-                ).padStart(2, "0")}`}
               />
             </div>
 
-            {/* WFO Preferences */}
-            <div className="flex gap-2 items-center">
-              <label className="text-lg">WFO Preferences:</label>
-              {["Mon", "Tue", "Wed", "Thu", "Fri"].map((day) => (
-                <label key={day} className="flex items-center gap-1">
-                  <input
-                    type="checkbox"
-                    name={day}
-                    checked={wfoPreferences[day]}
-                    onChange={handleCheckboxChange}
-                  />
-                  {day}
-                </label>
-              ))}
-              {/* Apply Button */}
-              <button
-                className="ml-2 px-3 py-1 bg-gray-300 text-black border-2 border-gray-500 rounded-md"
-                onClick={handleApply}
-              >
-                Apply
-              </button>
-              {/* Save Button */}
-              <button
-                className="ml-2 px-3 py-1 bg-green-500 text-white border-2 border-gray-500 rounded-md"
-                onClick={handleSave}
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
+            {/* Conditionally render WFO preferences */}
+            {userRole === "viewer" && (
+              <div className="flex items-center gap-4">
+                {/* WFO Preferences */}
+                <label className="text-lg">WFO preferences:</label>
+                {["Mon", "Tue", "Wed", "Thu", "Fri"].map((day) => (
+                  <label key={day} className="text-lg">
+                    <input
+                      type="checkbox"
+                      name={day}
+                      checked={wfoPreferences[day]}
+                      onChange={handleCheckboxChange}
+                    />{" "}
+                    {day}
+                  </label>
+                ))}
 
-        {/* Display the number of days in the selected month */}
-        <div className="flex justify-center w-full px-8">
-          <div className="overflow-x-auto w-full">
-            {userRole === "admin" || userRole === "manager" ? (
-              <div className="flex justify-center items-center text-xl font-bold">
-                No data available
+                <button
+                  onClick={handleApply}
+                  className="ml-2 px-3 py-1 bg-gray-300 text-black border-2 border-gray-500 rounded-md"
+                >
+                  Apply
+                </button>
+
+                {/* Save Button */}
+                <button
+                  onClick={handleSave}
+                  className="ml-2 px-3 py-1 bg-gray-300 text-black border-2 border-gray-500 rounded-md"
+                >
+                  Save
+                </button>
               </div>
-            ) : (
-              <table className="min-w-max">
-                <thead>
-                  <tr>
-                    <th rowSpan="2" className="px-6">
-                      Name
-                    </th>
-                    {Array.from({ length: daysInSelectedMonth }, (_, i) => (
-                      <th key={i + 1}>{i + 1}</th>
-                    ))}
-                    <th rowSpan={2}>TH ({thCount})</th>
-                    <th rowSpan={2}>TO ({toCount})</th>
-                    <th rowSpan={2}>TL ({tlCount})</th>
-                  </tr>
-                  <tr>
-                    {Array.from({ length: daysInSelectedMonth }, (_, i) => (
-                      <th key={i + 1}>
-                        {getDayName(
-                          new Date(
-                            selectedMonth.getFullYear(),
-                            selectedMonth.getMonth(),
-                            i + 1
-                          )
-                        )}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="px-6">{userNameAndId}</td>
-                    {Array.from({ length: daysInSelectedMonth }, (_, i) => {
-                      const day = i + 1;
-                      const currentDate = new Date(
-                        selectedMonth.getFullYear(),
-                        selectedMonth.getMonth(),
-                        day
-                      );
-                      return (
-                        <td key={day} onClick={() => handleCellClick(day)}>
-                          {isWeekend(currentDate) ? (
-                            <button className="weekend">😊</button>
-                          ) : cellStates[day] === "O" ? (
-                            <button className="O">O</button>
-                          ) : cellStates[day] === "H" ? (
-                            <button className="H">H</button>
-                          ) : (
-                            <button className="L">L</button>
-                          )}
-                        </td>
-                      );
-                    })}
-                    <td>{thCount}</td>
-                    <td>{toCount}</td>
-                    <td>{tlCount}</td>
-                  </tr>
-                </tbody>
-              </table>
             )}
+          </div>
+
+          {/* Display the number of days in the selected month */}
+          <div className="flex justify-center w-full px-8">
+            <div className="overflow-x-auto w-full">
+              {userRole === "admin" || userRole === "manager" ? (
+                <div className="text-lg font-semibold m-4 text-center">
+                  No data available
+                </div>
+              ) : (
+                <table className="min-w-max">
+                  <thead>
+                    <tr>
+                      <th rowSpan="2" className="px-6">
+                        Name
+                      </th>
+                      {Array.from({ length: daysInSelectedMonth }, (_, i) => (
+                        <th key={i + 1}>{i + 1}</th>
+                      ))}
+                      <th rowSpan={2}>TH ({thCount})</th>
+                      <th rowSpan={2}>TO ({toCount})</th>
+                      <th rowSpan={2}>TL ({tlCount})</th>
+                    </tr>
+                    <tr>
+                      {Array.from({ length: daysInSelectedMonth }, (_, i) => (
+                        <th key={i + 1}>
+                          {getDayName(
+                            new Date(
+                              selectedMonth.getFullYear(),
+                              selectedMonth.getMonth(),
+                              i + 1
+                            )
+                          )}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="px-6">{userNameAndId}</td>
+                      {Array.from({ length: daysInSelectedMonth }, (_, i) => {
+                        const day = i + 1;
+                        const currentDate = new Date(
+                          selectedMonth.getFullYear(),
+                          selectedMonth.getMonth(),
+                          day
+                        );
+                        return (
+                          <td key={day} onClick={() => handleCellClick(day)}>
+                            {isWeekend(currentDate) ? (
+                              <button className="weekend">😊</button>
+                            ) : cellStates[day] === "O" ? (
+                              <button className="O">O</button>
+                            ) : cellStates[day] === "H" ? (
+                              <button className="H">H</button>
+                            ) : (
+                              <button className="L">L</button>
+                            )}
+                          </td>
+                        );
+                      })}
+                      <td>{thCount}</td>
+                      <td>{toCount}</td>
+                      <td>{tlCount}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
+      <div>
+        {userRole === "viewer" ? (
+          <div
+            className="ms-5 text-primary e-4 mt-2 fst-italic"
+            style={{ textAlign: "left" }}
+          >
+            <i
+              className="fa-solid fa-circle-info me-2"
+              style={{ color: "orange" }}
+            ></i>
+            <span className="text-primary">
+              Click on a cell to change forecast of current and future dates
+            </span>
+          </div>
+        ) : userRole !== "viewer" ? (
+          <div>
+            <i
+              className="fa-solid fa-circle-info me-2 ms-4 mt-2"
+              style={{ color: "orange" }}
+            ></i>
+            <span className="text-primary">
+              Click on a cell to change forecast
+            </span>
+          </div>
+        ) : null}
+      </div>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}

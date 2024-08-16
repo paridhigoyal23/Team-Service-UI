@@ -1,3 +1,5 @@
+
+
 th{
     border: 2px solid rgb(218, 217, 217);
     padding: 0.5rem 0.6rem;
@@ -16,49 +18,49 @@ td i{
 }
 
 /* Office Button */
-.O {
+/* .O {
     height: 24px;
     width: 24px;
     border-radius: 50%;
-    border: 2px solid #007bff; /* Professional blue color */
-    background-color: #ffffff; /* White background */
+    border: 2px solid #007bff; 
+    background-color: #ffffff; 
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    color: #007bff; /* Professional blue color */
+    color: #007bff; 
     font-weight: bold;
-}
+} */
 
 /* Home Button */
-.H {
+/* .H {
     height: 24px;
     width: 24px;
     border-radius: 50%;
-    border: 2px solid #28a745; /* Professional green color */
-    background-color: #ffffff; /* White background */
+    border: 2px solid #28a745; 
+    background-color: #ffffff; 
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    color: #28a745; /* Professional green color */
+    color: #28a745; 
     font-weight: bold;
-}
+} */
 
 /* Leave/Holiday Button */
-.L {
+/* .L {
     height: 24px;
     width: 24px;
     border-radius: 50%;
-    border: 2px solid #dc3545; /* Professional red color */
-    background-color: #ffffff; /* White background */
+    border: 2px solid #dc3545; 
+    background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    color: #dc3545; /* Professional red color */
+    color: #dc3545; 
     font-weight: bold;
-}
+} */
 
 /* Weekend Button */
 .weekend {
@@ -73,4 +75,38 @@ td i{
     font-size: 12px;
     color: #ffc107; /* Professional yellow color */
     font-weight: bold;
+}
+.O {
+    height: 18px;
+    width: 18px;
+    border-radius: 100%;
+    border: 2px solid green;
+    display: block;
+
+    font-size: 10px;
+    color: green;
+    font-weight: bold;
+}
+.H {
+    height: 18px;
+    width: 18px;
+    border-radius: 100%;
+    border: 2px solid orange;
+    display: block;
+    text-align: center;
+    font-size: 10px;
+    color: orange;
+    font-weight: bold;
+}
+.L {
+    height: 18px;
+    width: 18px;
+    border-radius: 100%;
+    border: 2px solid red;
+    display: block;
+    text-align: center;
+    font-size: 10px;
+    color: red;
+    font-weight: bold;
+    text-align: center;
 }
