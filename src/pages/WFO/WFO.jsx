@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
@@ -8,6 +9,7 @@ import "./WFO.module.css";
 
 function CalendarTable() {
   const { userRole, userEmail } = useAuth();
+  const [employeePreferences, setEmployeePreferences] = useState([]);
   const location = useLocation();
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [daysInSelectedMonth, setDaysInSelectedMonth] = useState(30);
@@ -28,6 +30,22 @@ function CalendarTable() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+  useEffect(() => {
+    if (userRole === "admin" || userRole === "manager") {
+      axios
+        .get("http://localhost:8000/employeeAttendances")
+        .then((response) => {
+          setEmployeePreferences(response.data);
+        })
+        .catch((error) => {
+          console.error(
+            "There was an error fetching the employee preferences!",
+            error
+          );
+        });
+    }
+  }, [userRole]);
 
   useEffect(() => {
     axios
@@ -254,6 +272,15 @@ function CalendarTable() {
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
+  // Helper function to extract unique dates for the table header
+  const getUniqueDates = () => {
+    const dates = employeePreferences.flatMap((employee) =>
+      employee.values.map((value) => Object.keys(value)[0])
+    );
+    return [...new Set(dates)].sort();
+  };
+
+  const uniqueDates = getUniqueDates();
 
   return (
     <>
@@ -315,11 +342,43 @@ function CalendarTable() {
           {/* Display the number of days in the selected month */}
           <div className="flex justify-center w-full px-8">
             <div className="overflow-x-auto w-full">
-              {userRole === "admin" || userRole === "manager" ? (
-                <div className="text-lg font-semibold m-4 text-center">
-                  No data available
-                </div>
-              ) : (
+                          {/* Render WFO Preferences Table for Admin or Manager */}
+            {(userRole === 'admin' || userRole === 'manager') && (
+                <table border="1" cellPadding="10" cellSpacing="0">
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            {uniqueDates.map((date, index) => (
+                                <th key={index}>{date}</th>
+                            ))}
+                            <th>TO</th>
+                            <th>TH</th>
+                            <th>TL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {employeePreferences.map((employee, index) => (
+                            <tr key={index}>
+                                <td>{employee.name}</td>
+                                {uniqueDates.map((date, index) => {
+                                    const preference = employee.values.find(value => value[date])?.[date] || '';
+                                    return (
+                                        <td key={index}>
+                                            {preference === 'BH' ? '😊' : preference}
+                                        </td>
+                                    );
+                                })}
+                                <td>{employee.TO}</td>
+                                <td>{employee.TH}</td>
+                                <td>{employee.TL}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+
+              :
+              {userRole === "viewer" && (
                 <table className="min-w-max">
                   <thead>
                     <tr>
@@ -395,16 +454,6 @@ function CalendarTable() {
             ></i>
             <span className="text-primary">
               Click on a cell to change forecast of current and future dates
-            </span>
-          </div>
-        ) : userRole !== "viewer" ? (
-          <div>
-            <i
-              className="fa-solid fa-circle-info me-2 ms-4 mt-2"
-              style={{ color: "orange" }}
-            ></i>
-            <span className="text-primary">
-              Click on a cell to change forecast
             </span>
           </div>
         ) : null}
