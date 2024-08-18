@@ -137,9 +137,9 @@ const AddModal = ({ open, handleClose, handleSave }) => {
                     {employees.map((emp) => (
                       <MenuItem
                         key={emp.EmpId}
-                        value={`${emp.Name} (${emp.EmpId})`}
+                        value={`${emp.Name}(${emp.EmpId})`}
                       >
-                        {`${emp.Name} (${emp.EmpId})`}
+                        {`${emp.Name}(${emp.EmpId})`}
                       </MenuItem>
                     ))}
                   </Select>
@@ -147,7 +147,7 @@ const AddModal = ({ open, handleClose, handleSave }) => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  label="Training Title"
+                  label="Training Titles (comma separated)"
                   name="TrainingTitle"
                   value={newEmployee.TrainingTitle}
                   onChange={handleChange}
@@ -160,17 +160,17 @@ const AddModal = ({ open, handleClose, handleSave }) => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <DatePicker
-                  label="Start Date"
-                  value={newEmployee.StartDate}
-                  onChange={(value) => handleDateChange("StartDate", value)}
+                  label="Planned Date"
+                  value={newEmployee.PlannedDate}
+                  onChange={(value) => handleDateChange("PlannedDate", value)}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       fullWidth
                       margin="dense"
                       required
-                      error={!!errors.StartDate}
-                      helperText={errors.StartDate}
+                      error={!!errors.PlannedDate}
+                      helperText={errors.PlannedDate}
                     />
                   )}
                 />
@@ -196,17 +196,17 @@ const AddModal = ({ open, handleClose, handleSave }) => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <DatePicker
-                  label="Planned Date"
-                  value={newEmployee.PlannedDate}
-                  onChange={(value) => handleDateChange("PlannedDate", value)}
+                  label="Start Date"
+                  value={newEmployee.StartDate}
+                  onChange={(value) => handleDateChange("StartDate", value)}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       fullWidth
                       margin="dense"
                       required
-                      error={!!errors.PlannedDate}
-                      helperText={errors.PlannedDate}
+                      error={!!errors.StartDate}
+                      helperText={errors.StartDate}
                     />
                   )}
                 />
@@ -284,7 +284,7 @@ const AddModal = ({ open, handleClose, handleSave }) => {
               </Grid>
             </Grid>
             <Box
-              sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}
+              sx={{ mt: 2, display: "flex", gap: 2, justifyContent: "right" }}
             >
               <Button type="submit" variant="contained" color="primary">
                 Save

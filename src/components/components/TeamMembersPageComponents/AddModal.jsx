@@ -180,7 +180,7 @@ const AddModal = ({ open, handleClose, handleSave }) => {
             />
           </Grid>
         </Grid>
-        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ mt: 2, display: 'flex', gap:2, justifyContent:'right' }}>
           <Button type="submit" variant="contained" color="primary">
             Save
           </Button>
@@ -200,4 +200,3 @@ AddModal.propTypes = {
 };
 
 export default AddModal;
-

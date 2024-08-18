@@ -6,8 +6,6 @@
   box-sizing: border-box; 
 }
 
-
-
   /* Adjust the responsiveness */
   @media (max-width: 1024px) {
     .pie-chart-container{

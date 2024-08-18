@@ -39,7 +39,7 @@ const BarGraph = () => {
   const options = {
     title: "Team Members by Grade",
     titleTextStyle: {
-      fontSize: 24,
+      fontSize: 20,
       bold: true,
     },
     legend: { position: "none" }, // Hide legend as we have only one series
@@ -69,5 +69,3 @@ const BarGraph = () => {
 };
 
 export default BarGraph;
-
-

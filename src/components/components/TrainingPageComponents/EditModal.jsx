@@ -1,20 +1,31 @@
 
-import React, { useState, useEffect } from 'react';
-import { Modal, Box, Typography, TextField, Button, Grid, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import {
+  Modal,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Grid,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import PropTypes from "prop-types";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '90%',  // Use a percentage to ensure it fits within the viewport
-  maxWidth: 600,  // Set a maximum width for two columns
-  maxHeight: '90%',  // Ensure it does not exceed the viewport height
-  overflow: 'hidden',  // Remove the overflow auto to hide scrollbars
-  bgcolor: 'background.paper',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "90%",
+  maxWidth: 600,
+  maxHeight: "90%",
+  overflow: "hidden",
+  bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
 };
@@ -22,19 +33,25 @@ const style = {
 const EditModal = ({ open, handleClose, handleSave, employeeData }) => {
   const [formData, setFormData] = useState({
     ...employeeData,
-    PlannedDate: employeeData.PlannedDate ? new Date(employeeData.PlannedDate) : null,
+    PlannedDate: employeeData.PlannedDate
+      ? new Date(employeeData.PlannedDate)
+      : null,
     StartDate: employeeData.StartDate ? new Date(employeeData.StartDate) : null,
     EndDate: employeeData.EndDate ? new Date(employeeData.EndDate) : null,
-    Mode: employeeData.Mode || '',  // Ensure Mode is set from the provided employeeData
+    Mode: employeeData.Mode || "", 
   });
 
   useEffect(() => {
     setFormData({
       ...employeeData,
-      PlannedDate: employeeData.PlannedDate ? new Date(employeeData.PlannedDate) : null,
-      StartDate: employeeData.StartDate ? new Date(employeeData.StartDate) : null,
+      PlannedDate: employeeData.PlannedDate
+        ? new Date(employeeData.PlannedDate)
+        : null,
+      StartDate: employeeData.StartDate
+        ? new Date(employeeData.StartDate)
+        : null,
       EndDate: employeeData.EndDate ? new Date(employeeData.EndDate) : null,
-      Mode: employeeData.Mode || '',  // Ensure Mode is set from the provided employeeData
+      Mode: employeeData.Mode || "", 
     });
   }, [employeeData]);
 
@@ -59,8 +76,12 @@ const EditModal = ({ open, handleClose, handleSave, employeeData }) => {
   };
 
   return (
-    <Modal open={open} onClose={handleClose} aria-labelledby="edit-training-modal"
-      aria-describedby="edit-training-modal-description">
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="edit-training-modal"
+      aria-describedby="edit-training-modal-description"
+    >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Box sx={style} component="form" onSubmit={handleSubmit}>
           <Typography id="edit-training-modal" variant="h6" component="h2">
@@ -73,18 +94,44 @@ const EditModal = ({ open, handleClose, handleSave, employeeData }) => {
                 margin="normal"
                 name="Name"
                 label="Name"
-                value={formData.Name || ''}
+                value={formData.Name || ""}
                 onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                label="Training Titles (comma separated)"
+                name="TrainingTitle"
+                value={formData.TrainingTitle}
+                onChange={handleChange}
                 fullWidth
                 margin="normal"
-                name="TrainingTitle"
-                label="Training Title"
-                value={formData.TrainingTitle || ''}
-                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <DatePicker
+                label="Planned Date"
+                value={formData.PlannedDate}
+                onChange={(value) => handleDateChange("PlannedDate", value)}
+                slots={{ textField: (params) => <TextField {...params} fullWidth margin="normal" /> }} // Updated this line
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <DatePicker
+                label="Start Date"
+                value={formData.StartDate}
+                onChange={(value) => handleDateChange("StartDate", value)}
+                slots={{ textField: (params) => <TextField {...params} fullWidth margin="normal" /> }} // Updated this line
+                PopperProps={{
+                  anchorOrigin: {
+                    vertical: "top",
+                    horizontal: "center",
+                  },
+                  transformOrigin: {
+                    vertical: "bottom",
+                    horizontal: "center",
+                  },
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -93,7 +140,7 @@ const EditModal = ({ open, handleClose, handleSave, employeeData }) => {
                 <Select
                   labelId="training-type-label"
                   name="TrainingType"
-                  value={formData.TrainingType || ''}
+                  value={formData.TrainingType || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="Self">Self</MenuItem>
@@ -107,7 +154,7 @@ const EditModal = ({ open, handleClose, handleSave, employeeData }) => {
                 <Select
                   labelId="mode-label"
                   name="Mode"
-                  value={formData.Mode || ''}
+                  value={formData.Mode || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="online">online</MenuItem>
@@ -116,54 +163,12 @@ const EditModal = ({ open, handleClose, handleSave, employeeData }) => {
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <DatePicker
-                label="Planned Date"
-                value={formData.PlannedDate}
-                onChange={(value) => handleDateChange('PlannedDate', value)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    margin="normal"
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <DatePicker
-                label="Start Date"
-                value={formData.StartDate}
-                onChange={(value) => handleDateChange('StartDate', value)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    margin="normal"
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <DatePicker
-                label="End Date"
-                value={formData.EndDate}
-                onChange={(value) => handleDateChange('EndDate', value)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    margin="normal"
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
               <FormControl fullWidth margin="normal">
                 <InputLabel id="status-label">Status</InputLabel>
                 <Select
                   labelId="status-label"
                   name="Status"
-                  value={formData.Status || ''}
+                  value={formData.Status || ""}
                   onChange={handleChange}
                 >
                   <MenuItem value="Open">Open</MenuItem>
@@ -173,8 +178,16 @@ const EditModal = ({ open, handleClose, handleSave, employeeData }) => {
                 </Select>
               </FormControl>
             </Grid>
+            <Grid item xs={12} sm={6}>
+              <DatePicker
+                label="End Date"
+                value={formData.EndDate}
+                onChange={(value) => handleDateChange("EndDate", value)}
+                slots={{ textField: (params) => <TextField {...params} fullWidth margin="normal" /> }} // Updated this line
+              />
+            </Grid>
           </Grid>
-          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{ mt: 2, display: "flex", gap: 2, justifyContent: "right" }}>
             <Button type="submit" variant="contained" color="primary">
               Save
             </Button>
@@ -196,5 +209,3 @@ EditModal.propTypes = {
 };
 
 export default EditModal;
-
-

@@ -48,7 +48,7 @@ const UploadModal = ({ open, handleClose, handleSave }) => {
           Upload Employee Data
         </Typography>
         <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+        <Box sx={{ display: 'flex', gap:2, justifyContent:'right', mt: 2 }}>
           <Button
             variant="contained"
             color="primary"
