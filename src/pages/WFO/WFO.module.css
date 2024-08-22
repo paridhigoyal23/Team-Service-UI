@@ -110,3 +110,9 @@ td i{
     font-weight: bold;
     text-align: center;
 }
+.past-date {
+    background-color: #f0f0f0; 
+    color: #ccc; 
+    cursor: not-allowed; 
+  }
+  

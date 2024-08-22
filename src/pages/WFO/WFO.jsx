@@ -119,9 +119,9 @@ function CalendarTable() {
   };
 
   const updateCounts = (state) => {
-    let to = 0; // Work from Office
-    let th = 0; // Work from Home
-    let tl = 0; // Leave/Holiday
+    let to = 0; 
+    let th = 0; 
+    let tl = 0; 
 
     for (let i = 1; i <= daysInSelectedMonth; i++) {
       const dayState = state[i];
@@ -166,7 +166,7 @@ function CalendarTable() {
 
   const isWeekend = (date) => {
     const day = date.getDay();
-    return day === 0 || day === 6; // Sunday (0) or Saturday (6)
+    return day === 0 || day === 6; 
   };
 
   const fetchPreferences = () => {
@@ -272,7 +272,7 @@ function CalendarTable() {
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
-  // Helper function to extract unique dates for the table header
+  
   const getUniqueDates = () => {
     const dates = employeePreferences.flatMap((employee) =>
       employee.values.map((value) => Object.keys(value)[0])
@@ -476,3 +476,5 @@ function CalendarTable() {
 }
 
 export default CalendarTable;
+
+
